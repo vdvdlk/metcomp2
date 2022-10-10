@@ -12,9 +12,9 @@ def rwalk(p_esq=0.5, m=500, n=100):
         for i in numpy.arange(1, n + 1):
             r = random.random()
             if r < 1 - p_esq:
-                x[i][j] = x[i - 1][j] + 1
+                x[i, j] = x[i - 1, j] + 1
             else:
-                x[i][j] = x[i - 1][j] - 1
+                x[i, j] = x[i - 1, j] - 1
     x2ave = numpy.sum(x**2, axis=1) / m
 
     modelo_1 = lmfit.models.LinearModel()

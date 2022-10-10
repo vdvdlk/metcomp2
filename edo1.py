@@ -3,53 +3,62 @@ import numpy as np
 
 def euler(y_0, dt, t_f, funcional):
     """Realiza o cálculo númerico pelo método de Euler."""
-    n = int(t_f / dt)
-    lista_y = [y_0]
-    lista_t = [0]
-    for i in range(n):
-        lista_y.append(lista_y[i] + funcional(lista_y[i], lista_t[i]) * dt)
-        lista_t.append(lista_t[i] + dt)
-    array_y = np.array(lista_y)
-    array_t = np.array(lista_t)
-    return array_y, array_t
+    n_max = int(t_f / dt)
+
+    y = np.zeros(n_max)
+    y[0] = y_0
+
+    t = np.zeros(n_max)
+    t[0] = 0.0
+
+    for i in range(n_max - 1):
+        y[i + 1] = y[i] + funcional(y[i], t[i]) * dt
+        t[i + 1] = t[i] + dt
+    return y, t
 
 
 def rungekutta2(y_0, dt, t_f, funcional):
     """Realiza o cálculo númerico pelo método de Runge-Kutta de segunda ordem."""
-    n = int(t_f / dt)
-    lista_y = [y_0]
-    lista_t = [0]
-    for i in range(n):
-        y_l = lista_y[i] + (1 / 2) * funcional(lista_y[i], lista_t[i]) * dt
-        t_l = lista_t[i] + (1 / 2) * dt
-        lista_y.append(lista_y[i] + funcional(y_l, t_l) * dt)
-        lista_t.append(lista_t[i] + dt)
-    array_y = np.array(lista_y)
-    array_t = np.array(lista_t)
-    return array_y, array_t
+    n_max = int(t_f / dt)
+
+    y = np.zeros(n_max)
+    y[0] = y_0
+
+    t = np.zeros(n_max)
+    t[0] = 0.0
+
+    for i in range(n_max - 1):
+        y_l = y[i] + (1 / 2) * funcional(y[i], t[i]) * dt
+        t_l = t[i] + (1 / 2) * dt
+        y[i + 1] = y[i] + funcional(y_l, t_l) * dt
+        t[i + 1] = t[i] + dt
+    return y, t
 
 
 def rungekutta4(y_0, dt, t_f, funcional):
     """Realiza o cálculo númerico pelo método de Runge-Kutta de segunda ordem."""
-    n = int(t_f / dt)
-    lista_y = [y_0]
-    lista_t = [0]
-    for i in range(n):
-        y_l_1 = lista_y[i]
-        t_l_1 = lista_t[i]
+    n_max = int(t_f / dt)
 
-        y_l_2 = lista_y[i] + (1 / 2) * funcional(y_l_1, t_l_1) * dt
-        t_l_2 = lista_t[i] + (1 / 2) * dt
+    y = np.zeros(n_max)
+    y[0] = y_0
 
-        y_l_3 = lista_y[i] + (1 / 2) * funcional(y_l_2, t_l_2) * dt
-        t_l_3 = lista_t[i] + (1 / 2) * dt
+    t = np.zeros(n_max)
+    t[0] = 0.0
 
-        y_l_4 = lista_y[i] + funcional(y_l_3, t_l_3) * dt
-        t_l_4 = lista_t[i] + dt
+    for i in range(n_max - 1):
+        y_l_1 = y[i]
+        t_l_1 = t[i]
 
-        lista_y.append(lista_y[i] + (1 / 6) * (funcional(y_l_1, t_l_1) + 2 * funcional(
-            y_l_2, t_l_2) + 2 * funcional(y_l_3, t_l_3) + funcional(y_l_4, t_l_4)) * dt)
-        lista_t.append(lista_t[i] + dt)
-    array_y = np.array(lista_y)
-    array_t = np.array(lista_t)
-    return array_y, array_t
+        y_l_2 = y[i] + (1 / 2) * funcional(y_l_1, t_l_1) * dt
+        t_l_2 = t[i] + (1 / 2) * dt
+
+        y_l_3 = y[i] + (1 / 2) * funcional(y_l_2, t_l_2) * dt
+        t_l_3 = t[i] + (1 / 2) * dt
+
+        y_l_4 = y[i] + funcional(y_l_3, t_l_3) * dt
+        t_l_4 = t[i] + dt
+
+        y[i + 1] = y[i] + (1 / 6) * (funcional(y_l_1, t_l_1) + 2 * funcional(
+            y_l_2, t_l_2) + 2 * funcional(y_l_3, t_l_3) + funcional(y_l_4, t_l_4)) * dt
+        t[i + 1] = t[i] + dt
+    return y, t

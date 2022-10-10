@@ -9,10 +9,10 @@ def propagate(y_x0, t_f, dx, c, dt=False, pe='fixa', pd='fixa'):
     i_max = np.size(y_x0)
     n_max = int(t_f / dt)
 
-    y_xt = np.zeros((i_max, n_max + 1))
+    y_xt = np.zeros((i_max, n_max))
     y_xt[:, 0] = y_x0
 
-    for n in range(n_max):
+    for n in range(n_max - 1):
         for i in range(1, i_max - 1):
             if n == 0:
                 y_xt[i, n + 1] = 2 * (1 - r**2) * y_xt[i, n] - \

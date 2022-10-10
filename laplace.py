@@ -1,3 +1,4 @@
+import numpy as np
 from copy import deepcopy
 from matrizes import id_cond_contorno, str_para_zero
 
@@ -11,6 +12,17 @@ def update_V(posicoes, matriz):
                              [j] + matriz[i][j - 1] + matriz[i][j + 1]) / 4
         delta_V += abs(matriz[i][j] - nova_matriz[i][j])
     return nova_matriz, delta_V
+
+
+# def update_V(posicoes, array):
+#     novo_array = deepcopy(array)
+#     delta_V = 0.0
+#     for elemento in posicoes:
+#         i, j = elemento[0], elemento[1]
+#         novo_array[i, j] = (array[i - 1, j] + array[i + 1, j] +
+#                             array[i, j - 1] + array[i, j + 1]) / 4
+#         delta_V += np.abs(array[i, j] - array[i, j])
+#     return novo_array, delta_V
 
 
 def laplace(matriz_inicial, erro=1e-5, printar=False):
@@ -28,6 +40,23 @@ def laplace(matriz_inicial, erro=1e-5, printar=False):
     if printar == True:
         print('O programa fez', n, 'iterações.')
     return matriz
+
+
+# def laplace(matriz_inicial, erro=1e-5, printar=False):
+#     delta_V = 1.0
+#     pos = id_cond_contorno(matriz_inicial)
+#     array = np.array(str_para_zero(matriz_inicial))
+#     if printar == True:
+#         n = 0
+#     while abs(delta_V) > erro:
+#         update = update_V(pos, array)
+#         array = update[0]
+#         delta_V = update[1]
+#         if printar == True:
+#             n += 1
+#     if printar == True:
+#         print('O programa fez', n, 'iterações.')
+#     return array
 
 
 # def poisson(matriz_inicial, erro=1e-6, printar=False):

@@ -1,6 +1,8 @@
-from copy import deepcopy
-
 import numpy as np
+from copy import deepcopy
+# from math import sqrt
+
+# from numpy import float64
 from scipy.constants import epsilon_0
 
 
@@ -12,42 +14,42 @@ def inicializar(dim):
 def metal_xi(tensor, constante):
     l, m, n = np.shape(tensor)
     novo_tensor = deepcopy(tensor)
-    novo_tensor[0, :, :] = np.full((m, n), constante)
+    novo_tensor[0,:,:] = np.full((m,n), constante)
     return novo_tensor
 
 
 def metal_xf(tensor, constante):
     l, m, n = np.shape(tensor)
     novo_tensor = deepcopy(tensor)
-    novo_tensor[-1, :, :] = np.full((m, n), constante)
+    novo_tensor[-1,:,:] = np.full((m,n), constante)
     return novo_tensor
 
 
 def metal_yi(tensor, constante):
     l, m, n = np.shape(tensor)
     novo_tensor = deepcopy(tensor)
-    novo_tensor[:, 0, :] = np.full((l, n), constante)
+    novo_tensor[:,0,:] = np.full((l,n), constante)
     return novo_tensor
 
 
 def metal_yf(tensor, constante):
     l, m, n = np.shape(tensor)
     novo_tensor = deepcopy(tensor)
-    novo_tensor[:, -1, :] = np.full((l, n), constante)
+    novo_tensor[:,-1,:] = np.full((l,n), constante)
     return novo_tensor
 
 
 def metal_zi(tensor, constante):
     l, m, n = np.shape(tensor)
     novo_tensor = deepcopy(tensor)
-    novo_tensor[:, :, 0] = np.full((l, m), constante)
+    novo_tensor[:,:,0] = np.full((l,m), constante)
     return novo_tensor
 
 
 def metal_zf(tensor, constante):
     l, m, n = np.shape(tensor)
     novo_tensor = deepcopy(tensor)
-    novo_tensor[:, :, -1] = np.full((l, m), constante)
+    novo_tensor[:,:,-1] = np.full((l,m), constante)
     return novo_tensor
 
 
@@ -68,7 +70,7 @@ def id_cond_contorno(tensor):
     for i in range(1, l - 1):
         for j in range(1, m - 1):
             for k in range(1, n - 1):
-                if tensor[i, j, k] == np.inf:
+                if tensor[i][j][k] == '-':
                     acumulador.append([i, j, k])
 
     return acumulador
@@ -81,8 +83,8 @@ def inf_para_zero(tensor):
     for i in range(l):
         for j in range(m):
             for k in range(n):
-                if tensor[i, j, k] == np.inf:
-                    novo_tensor[i, j, k] = 0.0
+                if tensor[i][j][k] == np.inf:
+                    novo_tensor[i][j][k] = 0.0
     return novo_tensor
 
 

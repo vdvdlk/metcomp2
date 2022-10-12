@@ -1,28 +1,27 @@
-import random
-
 import lmfit
-import numpy
-from scipy.special import comb
+import numpy as np
 from uncertainties import ufloat
 
 
 def rwalk(p_esq=0.5, m=500, n=100):
-    x = numpy.zeros((n + 1, m))
+    x = np.zeros((n + 1, m))
     for j in range(m):
-        for i in numpy.arange(1, n + 1):
-            r = random.random()
+        for i in np.arange(1, n + 1):
+            r = np.random.rand()
             if r < 1 - p_esq:
                 x[i, j] = x[i - 1, j] + 1
             else:
                 x[i, j] = x[i - 1, j] - 1
-    x2ave = numpy.sum(x**2, axis=1) / m
+    x2ave = np.sum(x**2, axis=1) / m
 
-    modelo_1 = lmfit.models.LinearModel()
-    ajuste = modelo_1.fit(x2ave, x=numpy.arange(n + 1))
+    return x, x2ave
+
+
+def coeficiente_D(x2ave, modelo=lmfit.models.LinearModel()):
+    ajuste = modelo.fit(x2ave, x=np.arange(x2ave.size))
     slope = ufloat(ajuste.params['slope'].value, ajuste.params['slope'].stderr)
     D = (1 / 2) * slope
-
-    return x, x2ave, D
+    return D
 
 
 # def P_rwalk(x:int, n:int):
@@ -31,7 +30,7 @@ def rwalk(p_esq=0.5, m=500, n=100):
 #         fator = 0.0
 #         coef = 0
 #     else:
-#         fator = numpy.power(
+#         fator = np.power(
 #             2,
 #             -n,
 #             dtype=float

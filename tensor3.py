@@ -61,7 +61,7 @@ def metal_bordas(tensor, constante):
     return tensor
 
 
-def id_cond_contorno(tensor):
+def id_cond_contorno_3d(tensor):
     l, m, n = np.shape(tensor)
 
     acumulador = []
@@ -74,7 +74,7 @@ def id_cond_contorno(tensor):
     return acumulador
 
 
-def inf_para_zero(tensor):
+def inf_para_zero_3d(tensor):
     l, m, n = np.shape(tensor)
     novo_tensor = deepcopy(tensor)
 

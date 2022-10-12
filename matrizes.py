@@ -1,7 +1,7 @@
-import numpy as np
 from copy import deepcopy
-# from np import float64
 from math import sqrt
+
+import numpy as np
 from tabulate import tabulate
 
 
@@ -17,28 +17,28 @@ def mprint(array):
 def metal_esq(array, constante):
     m, n = np.shape(array)
     novo_array = deepcopy(array)
-    novo_array[0,:] = np.full(n, constante)
+    novo_array[0, :] = np.full(n, constante)
     return novo_array
 
 
 def metal_dir(array, constante):
     m, n = np.shape(array)
     novo_array = deepcopy(array)
-    novo_array[-1,:] = np.full(n, constante)
+    novo_array[-1, :] = np.full(n, constante)
     return novo_array
 
 
 def metal_baixo(array, constante):
     m, n = np.shape(array)
     novo_array = deepcopy(array)
-    novo_array[:,0] = np.full(m, constante)
+    novo_array[:, 0] = np.full(m, constante)
     return novo_array
 
 
 def metal_cima(array, constante):
     m, n = np.shape(array)
     novo_array = deepcopy(array)
-    novo_array[:,-1] = np.full(m, constante)
+    novo_array[:, -1] = np.full(m, constante)
     return novo_array
 
 
@@ -78,7 +78,7 @@ def metal_placas(array, i_placa):
     return novo_array
 
 
-def id_cond_contorno(array):
+def id_cond_contorno_2d(array):
     m, n = np.shape(array)
 
     acumulador = []
@@ -90,10 +90,10 @@ def id_cond_contorno(array):
     return acumulador
 
 
-def inf_para_zero(array):
+def inf_para_zero_2d(array):
     m, n = np.shape(array)
     novo_array = deepcopy(array)
-    
+
     for i in range(m):
         for j in range(n):
             if array[i, j] == np.inf:

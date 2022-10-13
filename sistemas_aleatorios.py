@@ -1,6 +1,7 @@
 import lmfit
 import numpy as np
 from uncertainties import ufloat
+from scipy.stats import entropy
 
 
 def rwalk(p_esq=0.5, m=500, n=100):
@@ -43,12 +44,11 @@ def coeficiente_D(x2ave, modelo=lmfit.models.LinearModel()):
 #     return fator * coef
 
 
-def rwalk_2d(n=100):
+def rwalk_2d(t=100):
     x_u = np.array([1, 0])
     y_u = np.array([0, 1])
-    
-    r = np.zeros((n + 1, 2))
-    for n in np.arange(1, n + 1):
+    r = np.zeros((t + 1, 2))
+    for n in np.arange(1, t + 1):
         q = np.random.rand()
         if q < 0.25:
             r[n] = r[n - 1] + x_u
@@ -61,17 +61,64 @@ def rwalk_2d(n=100):
     return r
 
 
-# def creme_cafe_update(r):
+def cafe_com_creme(m=500, t=100):
+    x_u = np.array([1, 0])
+    y_u = np.array([0, 1])
+    estado = np.zeros((m, t + 1, 2))
+    particula = np.random.randint(m, size=t + 1)
+    direcao = np.random.randint(4, size=t + 1)
+    for n in np.arange(1, t + 1):
+        p = particula[n]
+        q = direcao[n]
+        if q == 0:
+            estado[p, n, :] = x_u
+        elif q == 1:
+            estado[p, n, :] = - x_u
+        elif q == 2:
+            estado[p, n, :] = y_u
+        else:
+            estado[p, n, :] = - y_u
+    posicoes = np.cumsum(estado, axis=1)
+    return posicoes
 
 
-# def creme_cafe(p_esq=0.5, m=500, t=100):
-#     r = np.zeros((t + 1, m))
-#     for j in range(m):
-#         for i in np.arange(1, t + 1):
-#             q = np.random.rand()
-#             if q < 1 - p_esq:
-#                 r[i, j] = r[i - 1, j] + 1
-#             else:
-#                 r[i, j] = r[i - 1, j] - 1
+def contagem_subvolume(pos, passo, x_inf, x_sup, y_inf, y_sup):
+    cont = 0
 
-#     return r
+    for elemento in pos[:, passo, :]:
+        if (elemento[0] >= x_inf and elemento[0] < x_sup) and (elemento[1] >= y_inf and elemento[1] < y_sup):
+            cont += 1
+
+    return cont
+
+
+def contagens(pos, grid_x=np.arange(-20, 20, 5), grid_y=np.arange(-20, 20, 5)):
+    delta_x = grid_x[1] - grid_x[0]
+    delta_y = grid_y[1] - grid_y[0]
+
+    n_x = np.size(grid_x)
+    n_y = np.size(grid_y)
+    n_t = np.shape(pos)[1]
+
+    cont = np.zeros((n_x, n_y, n_t))
+
+    for passo in np.arange(n_t):
+        for i in np.arange(n_x):
+            for j in np.arange(n_y):
+                cont[i, j, passo] = contagem_subvolume(
+                    pos,
+                    passo,
+                    grid_x[i],
+                    grid_x[i] + delta_x,
+                    grid_y[j],
+                    grid_y[j] + delta_y
+                )
+
+    return cont
+
+
+def entropia(pos):
+    m = np.shape(pos)[0]
+    P = contagens(pos) / m
+    S = np.sum(-np.log(P**P), axis=(0, 1))
+    return S

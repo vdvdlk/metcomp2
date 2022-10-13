@@ -76,9 +76,8 @@ def propagate(y_x0, t_f, dx, c, dt=False, pe='fixa', pd='fixa'):
                 y_xt[i, n + 1] = 2 * (1 - r**2) * y_xt[i, n] - \
                     y_x0[i] + r**2 * (y_xt[i + 1, n] + y_xt[i - 1, n])
             elif n != 0:
-                y_xt[i, n + 1] = 2 * (1 - r**2) * y_xt[i, n] - y_xt[i,
-                                                                    n - 1] + r**2 * (y_xt[i + 1, n] + y_xt[i - 1, n])
-            # y_xt[:, n] = y_in
+                y_xt[i, n + 1] = 2 * (1 - r**2) * y_xt[i, n] - \
+                    y_xt[i, n - 1] + r**2 * (y_xt[i + 1, n] + y_xt[i - 1, n])
 
         if pe == 'fixa':
             y_xt[0, n + 1] = 0.0
@@ -91,3 +90,21 @@ def propagate(y_x0, t_f, dx, c, dt=False, pe='fixa', pd='fixa'):
             y_xt[-1, n + 1] = y_xt[-2, n + 1]
 
     return y_xt
+
+
+def difusao_2d(rho_0, t_f, dx, D, dt=False):
+    if dt == False:
+        dt = dx**2 / (4 * D)
+
+    i_max, j_max = np.shape(rho_0)
+    n_max = int(t_f / dt)
+
+    rho_t = np.zeros((i_max, j_max, n_max))
+    rho_t[:, :, 0] = rho_0
+
+    for n in range(n_max - 1):
+        for i in range(1, i_max - 1):
+            for j in range(1, j_max - 1):
+                rho_t[i, j, n + 1] = rho_t[i, j, n] + (D * dt / (dx)**2) * (rho_t[i + 1, j, n] + rho_t[i - 1, j, n] - 2 * rho_t[i, j, n] + rho_t[i, j + 1, n] + rho_t[i, j - 1, n] - 2 * rho_t[i, j, n])
+
+    return rho_t

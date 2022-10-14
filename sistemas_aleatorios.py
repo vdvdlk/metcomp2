@@ -135,5 +135,6 @@ def contagens(pos, grid_x=np.arange(-5, 5, 5), grid_y=np.arange(-5, 5, 5)):
 def entropia(pos):
     m = np.shape(pos)[0]
     P = contagens(pos) / m
-    S = np.sum(-np.log(P**P), axis=(0, 1))
+    # S = np.sum(-np.log(P**P), axis=(0, 1))
+    S = entropy(P, axis=(0, 1))
     return S

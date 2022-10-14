@@ -61,24 +61,39 @@ def rwalk_2d(t=100):
     return r
 
 
-def cafe_com_creme(m=500, t=100):
+def cafe_com_creme(m=400, t=10000):
     x_u = np.array([1, 0])
     y_u = np.array([0, 1])
-    estado = np.zeros((m, t + 1, 2))
+
+    posicoes = np.zeros((m, t + 1, 2))
     particula = np.random.randint(m, size=t + 1)
     direcao = np.random.randint(4, size=t + 1)
+
     for n in np.arange(1, t + 1):
         p = particula[n]
         q = direcao[n]
+
         if q == 0:
-            estado[p, n, :] = x_u
+            if posicoes[p, n - 1, 0] == 5:
+                posicoes[p, n:, :] = posicoes[p, n - 1, :] - x_u
+            else:
+                posicoes[p, n:, :] = posicoes[p, n - 1, :] + x_u
         elif q == 1:
-            estado[p, n, :] = - x_u
+            if posicoes[p, n - 1, 0] == -5:
+                posicoes[p, n:, :] = posicoes[p, n - 1, :] + x_u
+            else:
+                posicoes[p, n:, :] = posicoes[p, n - 1, :] - x_u
         elif q == 2:
-            estado[p, n, :] = y_u
+            if posicoes[p, n - 1, 1] == 5:
+                posicoes[p, n:, :] = posicoes[p, n - 1, :] - y_u
+            else:
+                posicoes[p, n:, :] = posicoes[p, n - 1, :] + y_u
         else:
-            estado[p, n, :] = - y_u
-    posicoes = np.cumsum(estado, axis=1)
+            if posicoes[p, n - 1, 1] == -5:
+                posicoes[p, n:, :] = posicoes[p, n - 1, :] + y_u
+            else:
+                posicoes[p, n:, :] = posicoes[p, n - 1, :] - y_u
+    # posicoes = np.cumsum(posicoes, axis=1)
     return posicoes
 
 
@@ -92,7 +107,7 @@ def contagem_subvolume(pos, passo, x_inf, x_sup, y_inf, y_sup):
     return cont
 
 
-def contagens(pos, grid_x=np.arange(-20, 20, 5), grid_y=np.arange(-20, 20, 5)):
+def contagens(pos, grid_x=np.arange(-5, 5, 5), grid_y=np.arange(-5, 5, 5)):
     delta_x = grid_x[1] - grid_x[0]
     delta_y = grid_y[1] - grid_y[0]
 

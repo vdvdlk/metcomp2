@@ -1,7 +1,8 @@
 import lmfit
+import matplotlib.pyplot as plt
 import numpy as np
-from uncertainties import ufloat
 from scipy.stats import entropy
+from uncertainties import ufloat
 
 
 def rwalk(p_esq=0.5, m=500, n=100):
@@ -44,10 +45,11 @@ def coeficiente_D(x2ave, modelo=lmfit.models.LinearModel()):
 #     return fator * coef
 
 
-def rwalk_2d(t=100):
+def rwalk_2d(t=100, r_0=np.array([0, 0])):
     x_u = np.array([1, 0])
     y_u = np.array([0, 1])
     r = np.zeros((t + 1, 2))
+    r[0, :] = r_0
     for n in np.arange(1, t + 1):
         q = np.random.rand()
         if q < 0.25:
@@ -138,3 +140,107 @@ def entropia(pos):
     # S = np.sum(-np.log(P**P), axis=(0, 1))
     S = entropy(P, axis=(0, 1))
     return S
+
+
+def posicao_aleatoria(R, dtype=float):
+    angulo = (2 * np.pi - 0.0) * np.random.ranf() + 0.0
+    x = np.ceil(R * np.cos(angulo))
+    y = np.ceil(R * np.sin(angulo))
+    pos = np.array([x, y], dtype=int)
+    return pos
+
+
+# def rwalk_2d_update(r):
+#     # novo_r = np.append(r, np.zeros((1, 2)), axis=0)
+#     # novo_r = np.zeros(2)
+#     x_u = np.array([1, 0])
+#     y_u = np.array([0, 1])
+#     q = np.random.rand()
+#     if q < 0.25:
+#         # novo_r[-1, :] = r[-1, :] + x_u
+#         novo_r = r + x_u
+#     elif q >= 0.25 and q < 0.5:
+#         # novo_r[-1, :] = r[-1, :] - x_u
+#         novo_r = r - x_u
+#     elif q >= 0.5 and q < 0.75:
+#         # novo_r[-1, :] = r[-1, :] + y_u
+#         novo_r = r + y_u
+#     else:
+#         # novo_r[-1, :] = r[-1, :] - y_u
+#         novo_r = r - y_u
+#     return novo_r
+
+
+def rwalk_2d_update(r):
+    x_u = np.array([1, 0])
+    y_u = np.array([0, 1])
+    q = np.random.rand()
+    if q < 0.25:
+        novo_r = r + x_u
+    elif q >= 0.25 and q < 0.5:
+        novo_r = r - x_u
+    elif q >= 0.5 and q < 0.75:
+        novo_r = r + y_u
+    else:
+        novo_r = r - y_u
+    return novo_r
+
+
+def detectar_vizinho(r, pos_ocup):
+    x_u = np.array([1, 0])
+    y_u = np.array([0, 1])
+    m, n = np.shape(pos_ocup)
+
+    i = 0
+    status = False
+    while status == False and i < m:
+        r_ocup = pos_ocup[i, :]
+        bool_cima = np.array_equal(r, r_ocup + x_u)
+        bool_baixo = np.array_equal(r, r_ocup - x_u)
+        bool_dir = np.array_equal(r, r_ocup + y_u)
+        bool_esq = np.array_equal(r, r_ocup - y_u)
+        status = bool_cima or bool_baixo or bool_dir or bool_esq
+        i += 1
+    return status
+
+
+def dla(n_part=740, grafico=False):
+    pos_ocup = np.zeros((1, 2))
+
+    while pos_ocup.shape[0] < n_part:
+        abs_r_ocup_max = np.linalg.norm(pos_ocup, axis=1).max()
+        if abs_r_ocup_max == 0.0:
+            r_inicial = posicao_aleatoria(1.0)
+        elif abs_r_ocup_max > 0.0:
+            r_inicial = posicao_aleatoria(5 * abs_r_ocup_max)
+        abs_r_inicial = np.linalg.norm(r_inicial)
+
+        r = r_inicial
+        abs_r = abs_r_inicial
+        tem_vizinho = False
+
+        while abs_r <= 1.5 * abs_r_inicial and tem_vizinho == False:
+            r = rwalk_2d_update(r)
+            abs_r = np.linalg.norm(r)
+
+            tem_vizinho = detectar_vizinho(r, pos_ocup)
+            if tem_vizinho == True:
+                pos_ocup = np.append(
+                    pos_ocup,
+                    np.array([r]),
+                    axis=0
+                )
+
+    m, n = pos_ocup.shape
+    print('Número de partículas: ', m)
+
+    if grafico == True:
+        fig, ax = plt.subplots()
+        for i in np.arange(m):
+            ax.set_title('Cluster DLA')
+            ax.set_xlabel('$x$')
+            ax.set_ylabel('$y$')
+            ax.plot(pos_ocup[i, 0], pos_ocup[i, 1], 's', color='black')
+            ax.set_aspect('equal')
+
+    return pos_ocup

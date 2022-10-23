@@ -204,7 +204,7 @@ def detectar_vizinho(r, pos_ocup):
     return status
 
 
-def dla(n_part=740, grafico=False):
+def dla(n_part=740):
     pos_ocup = np.zeros((1, 2))
 
     while pos_ocup.shape[0] < n_part:
@@ -231,16 +231,15 @@ def dla(n_part=740, grafico=False):
                     axis=0
                 )
 
-    m, n = pos_ocup.shape
-    print('Número de partículas: ', m)
-
-    if grafico == True:
-        fig, ax = plt.subplots()
-        for i in np.arange(m):
-            ax.set_title('Cluster DLA')
-            ax.set_xlabel('$x$')
-            ax.set_ylabel('$y$')
-            ax.plot(pos_ocup[i, 0], pos_ocup[i, 1], 's', color='black')
-            ax.set_aspect('equal')
-
     return pos_ocup
+
+
+def massa_cluster(pos_ocup):
+    abs_r_ocup_max = np.linalg.norm(pos_ocup, axis=1).max()
+    r_max = np.int64(np.ceil(abs_r_ocup_max))
+    array = np.zeros((r_max, 2))
+    array[:, 0] = np.arange(r_max)
+
+    for raio in np.arange(r_max):
+        array[raio, 1] = (pos_ocup < raio).sum()
+    return array

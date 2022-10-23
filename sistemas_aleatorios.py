@@ -1,6 +1,7 @@
 import lmfit
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.optimize import curve_fit
 from scipy.stats import entropy
 from uncertainties import ufloat
 
@@ -142,7 +143,7 @@ def entropia(pos):
     return S
 
 
-def posicao_aleatoria(R, dtype=float):
+def posicao_aleatoria(R):
     angulo = (2 * np.pi - 0.0) * np.random.ranf() + 0.0
     x = np.ceil(R * np.cos(angulo))
     y = np.ceil(R * np.sin(angulo))
@@ -205,31 +206,32 @@ def detectar_vizinho(r, pos_ocup):
 
 
 def dla(n_part=740):
-    pos_ocup = np.zeros((1, 2))
+    pos_ocup = np.zeros((n_part, 2))
 
-    while pos_ocup.shape[0] < n_part:
+    for i in np.arange(1, n_part):
         abs_r_ocup_max = np.linalg.norm(pos_ocup, axis=1).max()
         if abs_r_ocup_max == 0.0:
-            r_inicial = posicao_aleatoria(1.0)
+            r_inicial = posicao_aleatoria(5.0)
         elif abs_r_ocup_max > 0.0:
             r_inicial = posicao_aleatoria(5 * abs_r_ocup_max)
+        else:
+            print('Erro')
+            break
         abs_r_inicial = np.linalg.norm(r_inicial)
 
         r = r_inicial
         abs_r = abs_r_inicial
         tem_vizinho = False
 
-        while abs_r <= 1.5 * abs_r_inicial and tem_vizinho == False:
+        while tem_vizinho == False:
             r = rwalk_2d_update(r)
             abs_r = np.linalg.norm(r)
-
             tem_vizinho = detectar_vizinho(r, pos_ocup)
-            if tem_vizinho == True:
-                pos_ocup = np.append(
-                    pos_ocup,
-                    np.array([r]),
-                    axis=0
-                )
+            if abs_r > 1.5 * abs_r_inicial:
+                r = r_inicial
+                abs_r = abs_r_inicial
+
+        pos_ocup[i, :] = r
 
     return pos_ocup
 
@@ -237,9 +239,24 @@ def dla(n_part=740):
 def massa_cluster(pos_ocup):
     abs_r_ocup_max = np.linalg.norm(pos_ocup, axis=1).max()
     r_max = np.int64(np.ceil(abs_r_ocup_max))
-    array = np.zeros((r_max, 2))
-    array[:, 0] = np.arange(r_max)
+    array = np.zeros((r_max - 1, 2))
+    array[:, 0] = np.arange(1, r_max)
 
-    for raio in np.arange(r_max):
-        array[raio, 1] = (pos_ocup < raio).sum()
+    i = 0
+    for raio in np.arange(1, r_max):
+        array[i, 1] = (pos_ocup < raio).sum()
+        i += 1
     return array
+
+
+def linear(x, a, b):
+    return a * x + b
+
+
+def dim_fractal(massa, func=linear):
+    x = np.log(massa[:, 0])
+    y = np.log(massa[:, 1])
+
+    popt, pcov = curve_fit(func, x, y)
+
+    return popt

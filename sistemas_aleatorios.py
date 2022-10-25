@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import curve_fit
 from scipy.stats import entropy
+from tqdm.notebook import trange
 from uncertainties import ufloat
 
 
@@ -72,7 +73,8 @@ def cafe_com_creme(m=400, t=10000):
     particula = np.random.randint(m, size=t + 1)
     direcao = np.random.randint(4, size=t + 1)
 
-    for n in np.arange(1, t + 1):
+    for n in trange(1, t + 1, desc='Café com creme'):
+        # for n in np.arange(1, t + 1):
         p = particula[n]
         q = direcao[n]
 
@@ -96,7 +98,6 @@ def cafe_com_creme(m=400, t=10000):
                 posicoes[p, n:, :] = posicoes[p, n - 1, :] + y_u
             else:
                 posicoes[p, n:, :] = posicoes[p, n - 1, :] - y_u
-    # posicoes = np.cumsum(posicoes, axis=1)
     return posicoes
 
 
@@ -138,7 +139,6 @@ def contagens(pos, grid_x=np.arange(-5, 5, 5), grid_y=np.arange(-5, 5, 5)):
 def entropia(pos):
     m = np.shape(pos)[0]
     P = contagens(pos) / m
-    # S = np.sum(-np.log(P**P), axis=(0, 1))
     S = entropy(P, axis=(0, 1))
     return S
 
@@ -172,24 +172,24 @@ def posicao_aleatoria(R):
 #     return novo_r
 
 
-def rwalk_2d_update(r):
+def rwalk_2d_update(r, tamanho_passo):
     x_u = np.array([1, 0])
     y_u = np.array([0, 1])
     q = np.random.rand()
     if q < 0.25:
-        novo_r = r + x_u
+        novo_r = r + tamanho_passo * x_u
     elif q >= 0.25 and q < 0.5:
-        novo_r = r - x_u
+        novo_r = r - tamanho_passo * x_u
     elif q >= 0.5 and q < 0.75:
-        novo_r = r + y_u
+        novo_r = r + tamanho_passo * y_u
     else:
-        novo_r = r - y_u
+        novo_r = r - tamanho_passo * y_u
     return novo_r
 
 
 def detectar_vizinho(r, pos_ocup):
-    x_u = np.array([1, 0])
-    y_u = np.array([0, 1])
+    x_u = np.array([1, 0], dtype=int)
+    y_u = np.array([0, 1], dtype=int)
     m, n = np.shape(pos_ocup)
 
     i = 0
@@ -205,11 +205,16 @@ def detectar_vizinho(r, pos_ocup):
     return status
 
 
+def tamanho_max_cluster(pos_ocup):
+    return np.linalg.norm(pos_ocup, axis=1).max()
+
+
 def dla(n_part=740):
     pos_ocup = np.zeros((n_part, 2))
 
-    for i in np.arange(1, n_part):
-        abs_r_ocup_max = np.linalg.norm(pos_ocup, axis=1).max()
+    # for i in np.arange(1, n_part):
+    for i in trange(1, n_part, desc='DLA cluster'):
+        abs_r_ocup_max = tamanho_max_cluster(pos_ocup)
         if abs_r_ocup_max == 0.0:
             r_inicial = posicao_aleatoria(5.0)
         elif abs_r_ocup_max > 0.0:
@@ -224,7 +229,11 @@ def dla(n_part=740):
         tem_vizinho = False
 
         while tem_vizinho == False:
-            r = rwalk_2d_update(r)
+            if abs_r > 1.1 * abs_r_ocup_max and abs_r_ocup_max != 0.0:
+                tamanho_passo = np.int64(np.ceil(abs_r / abs_r_ocup_max))
+            else:
+                tamanho_passo = 1
+            r = rwalk_2d_update(r, tamanho_passo)
             abs_r = np.linalg.norm(r)
             tem_vizinho = detectar_vizinho(r, pos_ocup)
             if abs_r > 1.5 * abs_r_inicial:
@@ -237,7 +246,7 @@ def dla(n_part=740):
 
 
 def massa_cluster(pos_ocup):
-    abs_r_ocup_max = np.linalg.norm(pos_ocup, axis=1).max()
+    abs_r_ocup_max = tamanho_max_cluster(pos_ocup)
     r_max = np.int64(np.ceil(abs_r_ocup_max))
     array = np.zeros((r_max - 1, 2))
     array[:, 0] = np.arange(1, r_max)
@@ -253,9 +262,9 @@ def linear(x, a, b):
     return a * x + b
 
 
-def dim_fractal(massa, func=linear):
-    x = np.log(massa[:, 0])
-    y = np.log(massa[:, 1])
+def dim_fractal(massa, i_inicial=0, i_final=-1, func=linear):
+    x = np.log(massa[i_inicial:i_final, 0])
+    y = np.log(massa[i_inicial:i_final, 1])
 
     popt, pcov = curve_fit(func, x, y)
 

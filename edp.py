@@ -2,6 +2,7 @@ from copy import deepcopy
 
 import numpy as np
 from scipy.constants import epsilon_0
+from tqdm.notebook import trange
 
 from matrizes import id_cond_contorno_2d, inf_para_zero_2d
 from tensor3 import id_cond_contorno_3d, inf_para_zero_3d
@@ -102,7 +103,8 @@ def difusao_2d(rho_0, t_f, dx, D, dt=False):
     rho_t = np.zeros((i_max, j_max, n_max))
     rho_t[:, :, 0] = rho_0
 
-    for n in range(n_max - 1):
+    for n in trange(n_max - 1, desc='Difusão'):
+    # for n in range(n_max - 1):
         for i in range(1, i_max - 1):
             for j in range(1, j_max - 1):
                 rho_t[i, j, n + 1] = rho_t[i, j, n] + (D * dt / (dx)**2) * (rho_t[i + 1, j, n] + rho_t[i - 1, j, n] - 2 * rho_t[i, j, n] + rho_t[i, j + 1, n] + rho_t[i, j - 1, n] - 2 * rho_t[i, j, n])

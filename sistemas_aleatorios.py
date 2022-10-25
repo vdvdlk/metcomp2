@@ -2,6 +2,7 @@ import lmfit
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import curve_fit
+from scipy.special import comb
 from scipy.stats import entropy
 from tqdm.notebook import trange
 from uncertainties import ufloat
@@ -28,23 +29,23 @@ def coeficiente_D(x2ave, modelo=lmfit.models.LinearModel()):
     return D
 
 
-# def P_rwalk(x:int, n:int):
-#     """Distribuição de probabilidades de estar a uma distância x após n passos para o Random Walk"""
-#     if (x + n) % 2 != 0 or x < 0 or n < 0:
-#         fator = 0.0
-#         coef = 0
-#     else:
-#         fator = np.power(
-#             2,
-#             -n,
-#             dtype=float
-#         )
-#         coef = comb(
-#             n,
-#             (x + n) / 2,
-#             exact=True
-#         )
-#     return fator * coef
+def P_rwalk(x: int, n: int):
+    """Distribuição de probabilidades de estar a uma distância x após n passos para o Random Walk"""
+    if (x + n) % 2 != 0 or x < 0 or n < 0:
+        fator = 0.0
+        coef = 0
+    else:
+        fator = np.power(
+            2,
+            -n,
+            dtype=float
+        )
+        coef = comb(
+            n,
+            (x + n) / 2,
+            exact=True
+        )
+    return fator * coef
 
 
 def rwalk_2d(t=100, r_0=np.array([0, 0])):
@@ -151,27 +152,6 @@ def posicao_aleatoria(R):
     return pos
 
 
-# def rwalk_2d_update(r):
-#     # novo_r = np.append(r, np.zeros((1, 2)), axis=0)
-#     # novo_r = np.zeros(2)
-#     x_u = np.array([1, 0])
-#     y_u = np.array([0, 1])
-#     q = np.random.rand()
-#     if q < 0.25:
-#         # novo_r[-1, :] = r[-1, :] + x_u
-#         novo_r = r + x_u
-#     elif q >= 0.25 and q < 0.5:
-#         # novo_r[-1, :] = r[-1, :] - x_u
-#         novo_r = r - x_u
-#     elif q >= 0.5 and q < 0.75:
-#         # novo_r[-1, :] = r[-1, :] + y_u
-#         novo_r = r + y_u
-#     else:
-#         # novo_r[-1, :] = r[-1, :] - y_u
-#         novo_r = r - y_u
-#     return novo_r
-
-
 def rwalk_2d_update(r, tamanho_passo):
     x_u = np.array([1, 0])
     y_u = np.array([0, 1])
@@ -246,14 +226,14 @@ def dla(n_part=740):
 
 
 def massa_cluster(pos_ocup):
-    abs_r_ocup_max = tamanho_max_cluster(pos_ocup)
-    r_max = np.int64(np.ceil(abs_r_ocup_max))
-    array = np.zeros((r_max - 1, 2))
-    array[:, 0] = np.arange(1, r_max)
+    abs_pos_ocup = np.linalg.norm(pos_ocup, axis=1)
+    raio_max = np.int64(np.ceil(abs_pos_ocup.max()))
+    array = np.zeros((raio_max - 1, 2))
+    array[:, 0] = np.arange(1, raio_max)
 
     i = 0
-    for raio in np.arange(1, r_max):
-        array[i, 1] = (pos_ocup < raio).sum()
+    for raio in trange(1, raio_max, desc='Massa do Cluster'):
+        array[i, 1] = (abs_pos_ocup < raio).sum()
         i += 1
     return array
 
@@ -269,3 +249,6 @@ def dim_fractal(massa, i_inicial=0, i_final=-1, func=linear):
     popt, pcov = curve_fit(func, x, y)
 
     return popt
+
+
+fig, ax = plt.subplots()

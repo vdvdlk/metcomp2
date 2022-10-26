@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2022.9.22)  24 OCT 2022 00:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2022.9.22)  25 OCT 2022 20:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -902,34 +902,55 @@ Package pdftex.def Info: fig_3b.pdf  used on input line 43.
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
 l.50 \newpage
-              <./fig_3a.pdf> <./fig_3b.pdf>] [4]
-<fig_5a.pdf, id=209, 462.52798pt x 346.89601pt>
-File: fig_5a.pdf Graphic file (type pdf)
-<use fig_5a.pdf>
-Package pdftex.def Info: fig_5a.pdf  used on input line 60.
-(pdftex.def)             Requested size: 204.85672pt x 153.6457pt.
-<fig_5b.pdf, id=210, 462.52798pt x 346.89601pt>
-File: fig_5b.pdf Graphic file (type pdf)
-<use fig_5b.pdf>
-Package pdftex.def Info: fig_5b.pdf  used on input line 61.
-(pdftex.def)             Requested size: 204.85672pt x 153.6457pt.
- [5pdfTeX warning (ext4): destination with the same identifier (name{figure.4})
+              <./fig_3a.pdf> <./fig_3b.pdf>]
+<fig_4a.pdf, id=205, 722.7pt x 722.7pt>
+File: fig_4a.pdf Graphic file (type pdf)
+<use fig_4a.pdf>
+Package pdftex.def Info: fig_4a.pdf  used on input line 55.
+(pdftex.def)             Requested size: 230.46576pt x 230.46371pt.
+<fig_4b.pdf, id=206, 722.7pt x 722.7pt>
+File: fig_4b.pdf Graphic file (type pdf)
+<use fig_4b.pdf>
+Package pdftex.def Info: fig_4b.pdf  used on input line 56.
+(pdftex.def)             Requested size: 230.46576pt x 230.46371pt.
+<fig_4c.pdf, id=207, 722.7pt x 722.7pt>
+File: fig_4c.pdf Graphic file (type pdf)
+<use fig_4c.pdf>
+Package pdftex.def Info: fig_4c.pdf  used on input line 57.
+(pdftex.def)             Requested size: 230.46576pt x 230.46371pt.
+ [4pdfTeX warning (ext4): destination with the same identifier (name{figure.4})
  has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.77 \end{document}
+l.61 \newpage
+              <./fig_4a.pdf> <./fig_4b.pdf> <./fig_4c.pdf>]
+<fig_5a.pdf, id=333, 462.52798pt x 346.89601pt>
+File: fig_5a.pdf Graphic file (type pdf)
+<use fig_5a.pdf>
+Package pdftex.def Info: fig_5a.pdf  used on input line 66.
+(pdftex.def)             Requested size: 204.85672pt x 153.6457pt.
+<fig_5b.pdf, id=334, 462.52798pt x 346.89601pt>
+File: fig_5b.pdf Graphic file (type pdf)
+<use fig_5b.pdf>
+Package pdftex.def Info: fig_5b.pdf  used on input line 67.
+(pdftex.def)             Requested size: 204.85672pt x 153.6457pt.
+ [5pdfTeX warning (ext4): destination with the same identifier (name{figure.5})
+ has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.82 \end{document}
                     <./fig_5a.pdf> <./fig_5b.pdf>] (./lista03.aux)
 Package rerunfilecheck Info: File `lista03.out' has not changed.
 (rerunfilecheck)             Checksum: 64AD2E877B31B7CDFEB59E5383D2918C;245.
  ) 
 Here is how much of TeX's memory you used:
- 22652 strings out of 479304
- 455671 string characters out of 5869779
- 753912 words of memory out of 5000000
- 39389 multiletter control sequences out of 15000+600000
+ 22672 strings out of 479304
+ 455994 string characters out of 5869779
+ 753237 words of memory out of 5000000
+ 39405 multiletter control sequences out of 15000+600000
  414488 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 117i,7n,117p,436b,738s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 117i,7n,117p,468b,740s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texl
@@ -938,10 +959,10 @@ mf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmsy10.pfb>
-Output written on lista03.pdf (5 pages, 241225 bytes).
+Output written on lista03.pdf (5 pages, 359236 bytes).
 PDF statistics:
- 319 PDF objects out of 1000 (max. 8388607)
- 126 compressed objects within 2 object streams
- 15 named destinations out of 1000 (max. 500000)
- 83 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 436 PDF objects out of 1000 (max. 8388607)
+ 154 compressed objects within 2 object streams
+ 16 named destinations out of 1000 (max. 500000)
+ 98 words of extra memory for PDF output out of 10000 (max. 10000000)
 

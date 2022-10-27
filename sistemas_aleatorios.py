@@ -4,7 +4,7 @@ import numpy as np
 from scipy.optimize import curve_fit
 from scipy.special import comb
 from scipy.stats import entropy
-from tqdm.notebook import trange
+from tqdm.auto import trange
 from uncertainties import ufloat
 
 
@@ -144,17 +144,28 @@ def entropia(pos):
     return S
 
 
-def posicao_aleatoria(R):
+pos_ocup_1 = np.loadtxt(
+    fname='lista03/' + 'dla.txt',
+    dtype=int
+)
+
+pos_ocup_2 = np.loadtxt(
+    fname='lista03/' + 'dla_t.txt',
+    dtype=int
+)
+
+
+def posicao_aleatoria(raio):
     angulo = (2 * np.pi - 0.0) * np.random.ranf() + 0.0
-    x = np.ceil(R * np.cos(angulo))
-    y = np.ceil(R * np.sin(angulo))
+    x = np.ceil(raio * np.cos(angulo))
+    y = np.ceil(raio * np.sin(angulo))
     pos = np.array([x, y], dtype=int)
     return pos
 
 
 def rwalk_2d_update(r, tamanho_passo):
-    x_u = np.array([1, 0])
-    y_u = np.array([0, 1])
+    x_u = np.array([1, 0], dtype=int)
+    y_u = np.array([0, 1], dtype=int)
     q = np.random.rand()
     if q < 0.25:
         novo_r = r + tamanho_passo * x_u
@@ -176,10 +187,10 @@ def detectar_vizinho(r, pos_ocup):
     status = False
     while status == False and i < m:
         r_ocup = pos_ocup[i, :]
-        bool_cima = np.array_equal(r, r_ocup + x_u)
-        bool_baixo = np.array_equal(r, r_ocup - x_u)
-        bool_dir = np.array_equal(r, r_ocup + y_u)
-        bool_esq = np.array_equal(r, r_ocup - y_u)
+        bool_cima = np.array_equal(r + x_u, r_ocup)
+        bool_baixo = np.array_equal(r - x_u, r_ocup)
+        bool_dir = np.array_equal(r + y_u, r_ocup)
+        bool_esq = np.array_equal(r - y_u, r_ocup)
         status = bool_cima or bool_baixo or bool_dir or bool_esq
         i += 1
     return status
@@ -216,7 +227,7 @@ def dla(n_part=500):
                 tamanho_passo = 2
             else:
                 tamanho_passo = 1
-            
+
             r = 1 * rwalk_2d_update(r, tamanho_passo)
             abs_r = 1.0 * np.linalg.norm(r)
             tem_vizinho = detectar_vizinho(r, pos_ocup)

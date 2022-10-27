@@ -209,7 +209,9 @@ def dla(n_part=500):
         tem_vizinho = False
 
         while tem_vizinho == False:
-            if abs_r > 1.5 * abs_r_ocup_max and abs_r_ocup_max != 0.0:
+            if abs_r_ocup_max == 0.0:
+                tamanho_passo = 1
+            elif abs_r > 1.5 * abs_r_ocup_max:
                 # tamanho_passo = np.int64(np.ceil(abs_r / abs_r_ocup_max))
                 tamanho_passo = 2
             else:

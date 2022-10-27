@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2022.9.22)  25 OCT 2022 20:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2022.9.22)  26 OCT 2022 22:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -887,12 +887,12 @@ Package pdftex.def Info: fig_2.pdf  used on input line 30.
                                                   
 l.37 \newpage
               <./fig_2.pdf>]
-<fig_3a.pdf, id=129, 578.16pt x 578.16pt>
+<fig_3a.pdf, id=128, 578.16pt x 578.16pt>
 File: fig_3a.pdf Graphic file (type pdf)
 <use fig_3a.pdf>
 Package pdftex.def Info: fig_3a.pdf  used on input line 42.
 (pdftex.def)             Requested size: 204.85672pt x 204.85565pt.
-<fig_3b.pdf, id=130, 462.52798pt x 346.89601pt>
+<fig_3b.pdf, id=129, 462.52798pt x 346.89601pt>
 File: fig_3b.pdf Graphic file (type pdf)
 <use fig_3b.pdf>
 Package pdftex.def Info: fig_3b.pdf  used on input line 43.
@@ -922,23 +922,23 @@ Package pdftex.def Info: fig_4c.pdf  used on input line 57.
  has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.61 \newpage
+l.65 \newpage
               <./fig_4a.pdf> <./fig_4b.pdf> <./fig_4c.pdf>]
 <fig_5a.pdf, id=333, 462.52798pt x 346.89601pt>
 File: fig_5a.pdf Graphic file (type pdf)
 <use fig_5a.pdf>
-Package pdftex.def Info: fig_5a.pdf  used on input line 66.
+Package pdftex.def Info: fig_5a.pdf  used on input line 70.
 (pdftex.def)             Requested size: 204.85672pt x 153.6457pt.
 <fig_5b.pdf, id=334, 462.52798pt x 346.89601pt>
 File: fig_5b.pdf Graphic file (type pdf)
 <use fig_5b.pdf>
-Package pdftex.def Info: fig_5b.pdf  used on input line 67.
+Package pdftex.def Info: fig_5b.pdf  used on input line 71.
 (pdftex.def)             Requested size: 204.85672pt x 153.6457pt.
  [5pdfTeX warning (ext4): destination with the same identifier (name{figure.5})
  has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.82 \end{document}
+l.86 \end{document}
                     <./fig_5a.pdf> <./fig_5b.pdf>] (./lista03.aux)
 Package rerunfilecheck Info: File `lista03.out' has not changed.
 (rerunfilecheck)             Checksum: 64AD2E877B31B7CDFEB59E5383D2918C;245.
@@ -946,11 +946,11 @@ Package rerunfilecheck Info: File `lista03.out' has not changed.
 Here is how much of TeX's memory you used:
  22672 strings out of 479304
  455994 string characters out of 5869779
- 753237 words of memory out of 5000000
+ 753240 words of memory out of 5000000
  39405 multiletter control sequences out of 15000+600000
  414488 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 117i,7n,117p,468b,740s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 117i,7n,117p,468b,744s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texl
@@ -959,7 +959,7 @@ mf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmsy10.pfb>
-Output written on lista03.pdf (5 pages, 359236 bytes).
+Output written on lista03.pdf (5 pages, 359234 bytes).
 PDF statistics:
  436 PDF objects out of 1000 (max. 8388607)
  154 compressed objects within 2 object streams

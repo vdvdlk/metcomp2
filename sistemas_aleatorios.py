@@ -189,7 +189,7 @@ def tamanho_max_cluster(pos_ocup):
     return np.linalg.norm(pos_ocup, axis=1).max()
 
 
-def dla(n_part=740):
+def dla(n_part=500):
     pos_ocup = np.zeros((n_part, 2))
 
     # for i in np.arange(1, n_part):
@@ -204,23 +204,26 @@ def dla(n_part=740):
             break
         abs_r_inicial = np.linalg.norm(r_inicial)
 
-        r = r_inicial
-        abs_r = abs_r_inicial
+        r = 1 * r_inicial
+        abs_r = 1.0 * abs_r_inicial
         tem_vizinho = False
 
         while tem_vizinho == False:
-            if abs_r > 1.1 * abs_r_ocup_max and abs_r_ocup_max != 0.0:
-                tamanho_passo = np.int64(np.ceil(abs_r / abs_r_ocup_max))
+            if abs_r > 1.5 * abs_r_ocup_max and abs_r_ocup_max != 0.0:
+                # tamanho_passo = np.int64(np.ceil(abs_r / abs_r_ocup_max))
+                tamanho_passo = 2
             else:
                 tamanho_passo = 1
-            r = rwalk_2d_update(r, tamanho_passo)
-            abs_r = np.linalg.norm(r)
+            
+            r = 1 * rwalk_2d_update(r, tamanho_passo)
+            abs_r = 1.0 * np.linalg.norm(r)
             tem_vizinho = detectar_vizinho(r, pos_ocup)
-            if abs_r > 1.5 * abs_r_inicial:
-                r = r_inicial
-                abs_r = abs_r_inicial
 
-        pos_ocup[i, :] = r
+            if abs_r > 1.5 * abs_r_inicial:
+                r = 1 * r_inicial
+                abs_r = 1.0 * abs_r_inicial
+
+        pos_ocup[i, :] = 1 * r
 
     return pos_ocup
 
@@ -249,6 +252,3 @@ def dim_fractal(massa, i_inicial=0, i_final=-1, func=linear):
     popt, pcov = curve_fit(func, x, y)
 
     return popt
-
-
-fig, ax = plt.subplots()

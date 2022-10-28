@@ -1,4 +1,5 @@
 import numpy as np
+from tqdm.auto import trange
 
 
 def euler(y_0, v_0, dt, t_f, funcional):
@@ -14,7 +15,7 @@ def euler(y_0, v_0, dt, t_f, funcional):
     t = np.zeros(n_max)
     t[0] = 0.0
 
-    for i in range(n_max - 1):
+    for i in trange(n_max - 1, desc='Método de Euler'):
         v[i + 1] = v[i] + funcional(y[i], v[i], t[i]) * dt
         y[i + 1] = y[i] + v[i] * dt
         t[i + 1] = t[i] + dt

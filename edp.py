@@ -2,7 +2,7 @@ from copy import deepcopy
 
 import numpy as np
 from scipy.constants import epsilon_0
-from tqdm.notebook import trange
+from tqdm.auto import trange
 
 from matrizes import id_cond_contorno_2d, inf_para_zero_2d
 from tensor3 import id_cond_contorno_3d, inf_para_zero_3d

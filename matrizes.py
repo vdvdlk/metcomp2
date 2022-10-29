@@ -123,20 +123,3 @@ def magnitude_campo_eletrico(V, dx, dy):
     E_x = campo_eletrico_x(V, dx)
     E_y = campo_eletrico_y(V, dy)
     return np.sqrt(E_x**2 + E_y**2)
-
-
-def soma_primeiros_vizinhos(array, i, j):
-    m, n = np.shape(array)
-    if i == m - 1 and j == n - 1:
-        soma = array[i, j - 1] + array[i, 0] + \
-            array[i - 1, j] + array[0, j]
-    elif i == m - 1 and j < n - 1:
-        soma = array[i, j - 1] + array[i, j + 1] + \
-            array[i - 1, j] + array[0, j]
-    elif i < m - 1 and j == n - 1:
-        soma = array[i, j - 1] + array[i, 0] + \
-            array[i - 1, j] + array[i + 1, j]
-    else:
-        soma = array[i, j - 1] + array[i, j + 1] + \
-            array[i - 1, j] + array[i + 1, j]
-    return soma

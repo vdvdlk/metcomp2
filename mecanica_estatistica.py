@@ -1,7 +1,7 @@
+import matplotlib.pyplot as plt
 import numpy as np
 from copy import deepcopy
 from tqdm.auto import trange
-from matrizes import soma_primeiros_vizinhos
 from scipy.constants import Boltzmann
 
 
@@ -9,27 +9,54 @@ def inicializar_spins(L, t):
     return np.ones((L, L, t + 1), dtype=int)
 
 
-def energia_spin(spins, i, j, J, H, mu):
-    termo_inter = - J * soma_primeiros_vizinhos(spins, i, j)
-    termo_mag = - mu * H
-    return (termo_inter + termo_mag) * spins[i, j]
+def soma_dupla_primeiros_vizinhos(spins):
+    soma = 0
+    m, n = np.shape(spins)
+
+    for i in range(m):
+        for j in range(n):
+            if i == m - 1 and j == n - 1:
+                soma += spins[i, j] * \
+                    (spins[i, j - 1] + spins[i, 0] +
+                     spins[i - 1, j] + spins[0, j])
+            elif i == m - 1 and j < n - 1:
+                soma += spins[i, j] * \
+                    (spins[i, j - 1] + spins[i, j + 1] +
+                     spins[i - 1, j] + spins[0, j])
+            elif i < m - 1 and j == n - 1:
+                soma += spins[i, j] * \
+                    (spins[i, j - 1] + spins[i, 0] +
+                     spins[i - 1, j] + spins[i + 1, j])
+            else:
+                soma += spins[i, j] * \
+                    (spins[i, j - 1] + spins[i, j + 1] +
+                     spins[i - 1, j] + spins[i + 1, j])
+
+    return soma
+
+
+def energia_total(spins, J, H, mu):
+    termo_inter = - J * soma_dupla_primeiros_vizinhos(spins)
+    termo_mag = - mu * H * np.sum(spins)
+    return termo_inter + termo_mag
 
 
 def energia_flip(spins, i, j, J, H, mu):
-    E_inicial = energia_spin(spins, i, j, J, H, mu)
+    energia_inicial = energia_total(spins, J, H, mu)
 
-    spins_flip = deepcopy(spins)
-    spins_flip[i, j] = (- 1) * spins[i, j]
-    E_final = energia_spin(spins_flip, i, j, J, H, mu)
-    return E_final - E_inicial
+    spins_final = deepcopy(spins)
+    spins_final[i, j] = (- 1) * spins_final[i, j]
+    energia_final = energia_total(spins_final, J, H, mu)
+
+    return energia_final - energia_inicial
 
 
 def fator_boltzmann(E, T, si=False):
-    if si==True:
-        k_B = Boltzmann
-    else:
+    if si == False:
         k_B = 1.0
-    
+    else:
+        k_B = Boltzmann
+
     if T == 0.0:
         fator = np.exp(- np.inf)
     else:
@@ -37,22 +64,43 @@ def fator_boltzmann(E, T, si=False):
     return fator
 
 
-def ising_montecarlo(T, J=1.0, H=0.0, mu=1.0, L=10, t=1000):
+def ising_montecarlo(T, J=1.0, H=0.0, mu=0.0, L=10, t=1000):
     array_spins = inicializar_spins(L, t)
 
-    for n in trange(t, desc='Modelo de Ising por Monte Carlo'):
-        array_spins[:, :, n + 1] == 1 * array_spins[:, :, n]
+    for k in trange(t, desc='Modelo de Ising por Monte Carlo'):
+        array_spins[:, :, k + 1] = deepcopy(array_spins[:, :, k])
         for i in range(L):
             for j in range(L):
-                E_flip = energia_flip(array_spins[:, :, n], i, j, J, H, mu)
+                E_flip = energia_flip(array_spins[:, :, k], i, j, J, H, mu)
                 if E_flip <= 0.0:
-                    array_spins[i, j, n + 1] = (- 1) * array_spins[i, j, n]
+                    array_spins[i, j, k + 1] = (- 1) * array_spins[i, j, k]
                 else:
                     r = np.random.random()
                     if r <= fator_boltzmann(E_flip, T):
-                        array_spins[i, j, n + 1] = (- 1) * array_spins[i, j, n]
+                        array_spins[i, j, k + 1] = (- 1) * array_spins[i, j, k]
 
     return array_spins
 
 
-print(ising_montecarlo(T=-1000.0))
+def array_momento_magnetico(array_spins):
+    return np.sum(array_spins, axis=(0, 1))
+
+
+def array_energias(array_spins, J, H, mu):
+    m, n, t = np.shape(array_spins)
+    energias = np.zeros(t)
+    for k in range(t):
+        energias[k] = energia_total(array_spins[:, :, k], J, H, mu)
+    return energias
+
+
+T_c = 2 / np.log(1 + np.sqrt(2))
+array_teste = ising_montecarlo(T=2.25, t=1000)
+mm_teste = array_momento_magnetico(array_teste)
+# energias_teste = array_energias(array_teste, 1.0, 0.0, 1.0)
+
+
+plt.plot(mm_teste)
+plt.ylim(-200, 200)
+
+plt.show()

@@ -265,3 +265,194 @@ def dim_fractal(massa, i_inicial=0, i_final=-1, func=linear):
     popt, pcov = curve_fit(func, x, y)
 
     return popt
+
+
+# Lista 4 ##########
+
+def xor(bool1: bool, bool2: bool) -> bool:
+    return bool1 != bool2
+
+
+def regra_90(N: int = 141, t: int = 70) -> np.ndarray:
+    matriz = np.zeros((t, N), dtype=bool)
+    matriz[0, N // 2] = True
+
+    for tt in range(t - 1):
+        for i in range(1, N - 1):
+            matriz[tt + 1, i] = xor(matriz[tt, i - 1], matriz[tt, i + 1])
+
+    return matriz.astype(int)
+
+
+def massa(L: int, array: np.ndarray = regra_90()) -> np.ndarray:
+    t, N = np.shape(array)
+    n_t, n_N = t // L, N // L
+
+    novo_array = np.zeros(
+        shape=(n_t, n_N),
+        dtype=int
+    )
+
+    for i in np.arange(n_t):
+        for j in np.arange(n_N):
+            novo_array[i, j] = int(
+                1 in array[i * L:(i + 1) * L, j * L:(j + 1) * L])
+
+    M = np.sum(novo_array)
+
+    return M
+
+
+massa_vec = np.vectorize(massa)
+
+
+def array_inicial(L: int) -> np.ndarray:
+    # if L % 2 == 0:
+    #     L += 1
+
+    formato = (L, L, 3)
+    coord_central = L // 2
+
+    array = np.zeros(shape=formato, dtype=int)
+    array[coord_central, coord_central, 0] = 1
+    array[coord_central, coord_central, 2] = 1
+
+    return array
+
+
+# def primeiros_vizinhos(array: np.ndarray) -> np.ndarray:
+#     posicoes_ocupadas = np.argwhere(array[:, :, 0])
+#     novo_array = np.copy(array)
+
+#     for posicao in posicoes_ocupadas:
+#         i, j = posicao
+#         if array[i, j - 1, 2] == 0:
+#             novo_array[i, j - 1, 1] = 1
+#         if array[i, j + 1, 2] == 0:
+#             novo_array[i, j + 1, 1] = 1
+#         if array[i - 1, j, 2] == 0:
+#             novo_array[i - 1, j, 1] = 1
+#         if array[i + 1, j, 2] == 0:
+#             novo_array[i + 1, j, 1] = 1
+
+#     return novo_array
+
+
+def primeiros_vizinhos(array: np.ndarray) -> np.ndarray:
+    L_x, L_y, L_z = np.shape(array)
+    posicoes_ocupadas = np.argwhere(array[:, :, 0])
+    novo_array = np.copy(array)
+
+    for posicao in posicoes_ocupadas:
+        i, j = posicao
+        if i == 0 and j == 0:
+            if novo_array[i + 1, j, 2] == 0:
+                novo_array[i + 1, j, 1] = 1
+            if novo_array[i, j + 1, 2] == 0:
+                novo_array[i, j + 1, 1] = 1
+        elif i == 0 and j == L_y - 1:
+            if novo_array[i + 1, j, 2] == 0:
+                novo_array[i + 1, j, 1] = 1
+            if novo_array[i, j - 1, 2] == 0:
+                novo_array[i, j - 1, 1] = 1
+        elif i == L_x - 1 and j == 0:
+            if novo_array[i - 1, j, 2] == 0:
+                novo_array[i - 1, j, 1] = 1
+            if novo_array[i, j + 1, 2] == 0:
+                novo_array[i, j + 1, 1] = 1
+        elif i == L_x - 1 and j == L_y - 1:
+            if novo_array[i - 1, j, 2] == 0:
+                novo_array[i - 1, j, 1] = 1
+            if novo_array[i, j - 1, 2] == 0:
+                novo_array[i, j - 1, 1] = 1
+        elif i == 0:
+            if novo_array[i + 1, j, 2] == 0:
+                novo_array[i + 1, j, 1] = 1
+            if novo_array[i, j - 1, 2] == 0:
+                novo_array[i, j - 1, 1] = 1
+            if novo_array[i, j + 1, 2] == 0:
+                novo_array[i, j + 1, 1] = 1
+        elif j == 0:
+            if novo_array[i, j + 1, 2] == 0:
+                novo_array[i, j + 1, 1] = 1
+            if novo_array[i - 1, j, 2] == 0:
+                novo_array[i - 1, j, 1] = 1
+            if novo_array[i + 1, j, 2] == 0:
+                novo_array[i + 1, j, 1] = 1
+        elif i == L_x - 1:
+            if novo_array[i - 1, j, 2] == 0:
+                novo_array[i - 1, j, 1] = 1
+            if novo_array[i, j - 1, 2] == 0:
+                novo_array[i, j - 1, 1] = 1
+            if novo_array[i, j + 1, 2] == 0:
+                novo_array[i, j + 1, 1] = 1
+        elif j == L_y - 1:
+            if novo_array[i, j - 1, 2] == 0:
+                novo_array[i, j - 1, 1] = 1
+            if novo_array[i - 1, j, 2] == 0:
+                novo_array[i - 1, j, 1] = 1
+            if novo_array[i + 1, j, 2] == 0:
+                novo_array[i + 1, j, 1] = 1
+        else:
+            if novo_array[i, j - 1, 2] == 0:
+                novo_array[i, j - 1, 1] = 1
+            if novo_array[i, j + 1, 2] == 0:
+                novo_array[i, j + 1, 1] = 1
+            if novo_array[i - 1, j, 2] == 0:
+                novo_array[i - 1, j, 1] = 1
+            if novo_array[i + 1, j, 2] == 0:
+                novo_array[i + 1, j, 1] = 1
+
+    return novo_array
+
+
+def iteracao_leath(array: np.ndarray, p: float = 0.5927) -> np.ndarray:
+    posicoes_perimetro = np.argwhere(array[:, :, 1])
+    novo_array = np.copy(array)
+
+    for posicao in posicoes_perimetro:
+        i, j = posicao
+        r = np.random.random()
+        if r <= p:
+            novo_array[i, j, 0] = 1
+        novo_array[i, j, 1] = 0
+        novo_array[i, j, 2] = 1
+
+    return novo_array
+
+
+def leath(L: int, p: float = 0.5927) -> np.ndarray:
+    array = array_inicial(L)
+    array = primeiros_vizinhos(array)
+
+    formato_final = np.shape(array[:, :, 1])
+    array_final = np.zeros(shape=formato_final)
+
+    while np.array_equal(array[:, :, 1], array_final) == False:
+        array = iteracao_leath(array, p)
+        array = primeiros_vizinhos(array)
+
+    return array
+
+
+def ensemble_leath(L: int, N: int = 10000) -> np.ndarray:
+    formato = (L, L, N)
+    array = np.zeros(shape=formato, dtype=int)
+
+    for n in trange(N, desc='Ensemble de Cluster Leath para L = ' + str(L)):
+        array[:, :, n] = leath(L)[:, :, 0]
+
+    return array
+
+
+# def p_infty(L_array: np.ndarray = np.array([10, 20, 50, 100, 200], dtype=int), N: int = 10000):
+#     tamanho_L = np.size(L_array)
+#     ensembles 
+#     for L in L_array:
+#         ensemble = ensemble_leath(L, N)
+#     P_n = np.mean(ensemble, axis=(0, 1))
+#     P = np.mean(P_n)
+#     return P
+
+
+# p_infty_vec = np.vectorize(p_infty)

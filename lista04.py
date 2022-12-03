@@ -161,37 +161,33 @@ ax_3c.plot(x_3c_fit, y_3c_fit)
 def main():
     # Exercício 1
 
-    fig_1.savefig(
-        fname='lista04/fig_1.pdf',
-        # dpi=1000
-    )
+    # fig_1.savefig(
+    #     fname='lista04/fig_1.pdf',
+    # )
 
     # Exercício 2
 
-    print('Figura 2')
-    print(fit_2.fit_report(), '\n')
+    # with open('lista04/fit_2.txt', 'w') as f:
+    #     f.write(fit_2.fit_report())
 
-    fig_2.savefig(
-        fname='lista04/fig_2.pdf',
-        # dpi=1000
-    )
+    # fig_2.savefig(
+    #     fname='lista04/fig_2.pdf',
+    # )
 
     # Exercício 3.a)
 
-    fig3a.savefig(
-        fname='lista04/fig_3a.pdf',
-        # dpi=1000
-    )
+    # fig3a.savefig(
+    #     fname='lista04/fig_3a.pdf',
+    # )
 
     # Exercício 3.b)
 
-    print('Figura 3.b)')
-    print(fit_3b.fit_report(), '\n')
+    # with open('lista04/fit_3b.txt', 'w') as f:
+    #     f.write(fit_3b.fit_report())
 
-    fig_3b.savefig(
-        fname='lista04/fig_3b.pdf',
-        # dpi=1000
-    )
+    # fig_3b.savefig(
+    #     fname='lista04/fig_3b.pdf',
+    # )
 
     # Exercício 3.c)
 
@@ -225,13 +221,12 @@ def main():
     #     arr=ensemble_200,
     # )
 
-    fig_3c.savefig(
-        fname='lista04/fig_3c.pdf',
-        # dpi=1000
-    )
+    # fig_3c.savefig(
+    #     fname='lista04/fig_3c.pdf',
+    # )
 
-    print('Figura 3.c)')
-    print(fit_3c.fit_report(), '\n')
+    # with open('lista04/fit_3c.txt', 'w') as f:
+    #     f.write(fit_3c.fit_report())
 
     # Exercício 3.d)
 

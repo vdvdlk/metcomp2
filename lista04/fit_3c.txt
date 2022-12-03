@@ -1,0 +1,17 @@
+[[Model]]
+    Model(powerlaw)
+[[Fit Statistics]]
+    # fitting method   = leastsq
+    # function evals   = 32
+    # data points      = 5
+    # variables        = 2
+    chi-square         = 1.3989e-04
+    reduced chi-square = 4.6630e-05
+    Akaike info crit   = -48.4204616
+    Bayesian info crit = -49.2015858
+    R-squared          = 0.99469683
+[[Variables]]
+    amplitude:  0.67999662 +/- 0.02629426 (3.87%) (init = 1)
+    exponent:  -0.25960276 +/- 0.01137937 (4.38%) (init = 1)
+[[Correlations]] (unreported correlations are < 0.100)
+    C(amplitude, exponent) = -0.957

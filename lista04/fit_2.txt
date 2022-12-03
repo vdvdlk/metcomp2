@@ -1,0 +1,17 @@
+[[Model]]
+    Model(linear)
+[[Fit Statistics]]
+    # fitting method   = leastsq
+    # function evals   = 7
+    # data points      = 5
+    # variables        = 2
+    chi-square         = 0.02565244
+    reduced chi-square = 0.00855081
+    Akaike info crit   = -22.3627732
+    Bayesian info crit = -23.1438973
+    R-squared          = 0.99781062
+[[Variables]]
+    slope:      1.55992048 +/- 0.04218696 (2.70%) (init = 1)
+    intercept:  0.78151495 +/- 0.10041648 (12.85%) (init = 0)
+[[Correlations]] (unreported correlations are < 0.100)
+    C(slope, intercept) = -0.911

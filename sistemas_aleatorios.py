@@ -1,5 +1,5 @@
 import lmfit
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import curve_fit
 from scipy.special import comb
@@ -320,26 +320,8 @@ def array_inicial(L: int) -> np.ndarray:
     return array
 
 
-# def primeiros_vizinhos(array: np.ndarray) -> np.ndarray:
-#     posicoes_ocupadas = np.argwhere(array[:, :, 0])
-#     novo_array = np.copy(array)
-
-#     for posicao in posicoes_ocupadas:
-#         i, j = posicao
-#         if array[i, j - 1, 2] == 0:
-#             novo_array[i, j - 1, 1] = 1
-#         if array[i, j + 1, 2] == 0:
-#             novo_array[i, j + 1, 1] = 1
-#         if array[i - 1, j, 2] == 0:
-#             novo_array[i - 1, j, 1] = 1
-#         if array[i + 1, j, 2] == 0:
-#             novo_array[i + 1, j, 1] = 1
-
-#     return novo_array
-
-
 def primeiros_vizinhos(array: np.ndarray) -> np.ndarray:
-    L_x, L_y, L_z = np.shape(array)
+    L_x, L_y = np.shape(array[:, :, 0])
     posicoes_ocupadas = np.argwhere(array[:, :, 0])
     novo_array = np.copy(array)
 
@@ -406,6 +388,31 @@ def primeiros_vizinhos(array: np.ndarray) -> np.ndarray:
     return novo_array
 
 
+# def primeiros_vizinhos(array: np.ndarray) -> np.ndarray:
+#     L_x, L_y = np.shape(array[:, :, 0])
+#     posicoes_ocupadas = np.argwhere(array[:, :, 0])
+#     novo_array = np.copy(array)
+
+#     for posicao in posicoes_ocupadas:
+#         i, j = posicao
+
+#         if i == L_x - 1:
+#             i = -1
+#         if j == L_y - 1:
+#             j = -1
+
+#         if novo_array[i, j - 1, 2] == 0:
+#             novo_array[i, j - 1, 1] = 1
+#         if novo_array[i, j + 1, 2] == 0:
+#             novo_array[i, j + 1, 1] = 1
+#         if novo_array[i - 1, j, 2] == 0:
+#             novo_array[i - 1, j, 1] = 1
+#         if novo_array[i + 1, j, 2] == 0:
+#             novo_array[i + 1, j, 1] = 1
+
+#     return novo_array
+
+
 def iteracao_leath(array: np.ndarray, p: float = 0.5927) -> np.ndarray:
     posicoes_perimetro = np.argwhere(array[:, :, 1])
     novo_array = np.copy(array)
@@ -445,14 +452,8 @@ def ensemble_leath(L: int, N: int = 10000) -> np.ndarray:
     return array
 
 
-# def p_infty(L_array: np.ndarray = np.array([10, 20, 50, 100, 200], dtype=int), N: int = 10000):
-#     tamanho_L = np.size(L_array)
-#     ensembles 
-#     for L in L_array:
-#         ensemble = ensemble_leath(L, N)
-#     P_n = np.mean(ensemble, axis=(0, 1))
-#     P = np.mean(P_n)
-#     return P
+def p_infty(ensemble: np.ndarray):
+    P_N = np.mean(ensemble, axis=(0, 1))
+    P = np.mean(P_N)
 
-
-# p_infty_vec = np.vectorize(p_infty)
+    return P

@@ -157,6 +157,8 @@ x_3c_fit = np.linspace(
 y_3c_fit = A_3c * x_3c_fit ** k_3c
 ax_3c.plot(x_3c_fit, y_3c_fit)
 
+# item 3. d)  #######################
+
 
 def main():
     # Exercício 1

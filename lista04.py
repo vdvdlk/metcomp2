@@ -2,13 +2,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import lmfit
 
-from sistemas_aleatorios import regra_90, massa_vec, leath, ensemble_leath, p_infty
+from sistemas_aleatorios import regra_90, massa_vec, leath, ensemble_leath, p_infty, n_s
 
 plt.rcParams.update({
     "text.usetex": True,
     "font.family": "serif",
-    "figure.dpi": 1000,
+    # "figure.dpi": 1000,
 })
+
 
 # Exercício 1 #######################
 
@@ -64,17 +65,17 @@ ax_2.plot(x2_fit, y2_fit)
 
 # item 3. a)  #######################
 
-cluster_a = leath(100)
+cluster_3a = leath(100)
 
-fig3a, ax3a = plt.subplots()
+fig_3a, ax_3a = plt.subplots()
 
-ax3a.set_title('Cluster por algoritmo de Leath')
+ax_3a.set_title('Cluster por algoritmo de Leath')
 
-ax3a.set_xlabel('$x$')
-ax3a.set_ylabel('$y$')
+ax_3a.set_xlabel('$x$')
+ax_3a.set_ylabel('$y$')
 
-ax3a.imshow(
-    X=cluster_a[:, :, 0],
+ax_3a.imshow(
+    X=cluster_3a,
     cmap='Greys'
 )
 
@@ -110,20 +111,46 @@ x_3b_fit = np.linspace(0, 4)
 y_3b_fit = d_f_3b * x_3b_fit + intercept_3b
 ax_3b.plot(x_3b_fit, y_3b_fit)
 
+
 # item 3. c)  #######################
 
+# ensemble_10 = ensemble_leath(L=10)
+# np.save(
+#     file='lista04/ensemble_10',
+#     arr=ensemble_10,
+# )
 ensemble_10 = np.load('lista04/ensemble_10.npy')
 p_infty_10 = p_infty(ensemble_10)
 
+# ensemble_20 = ensemble_leath(L=20)
+# np.save(
+#     file='lista04/ensemble_20',
+#     arr=ensemble_20,
+# )
 ensemble_20 = np.load('lista04/ensemble_20.npy')
 p_infty_20 = p_infty(ensemble_20)
 
+# ensemble_50 = ensemble_leath(L=50)
+# np.save(
+#     file='lista04/ensemble_50',
+#     arr=ensemble_50,
+# )
 ensemble_50 = np.load('lista04/ensemble_50.npy')
 p_infty_50 = p_infty(ensemble_50)
 
+# ensemble_100 = ensemble_leath(L=100)
+# np.save(
+#     file='lista04/ensemble_100',
+#     arr=ensemble_100,
+# )
 ensemble_100 = np.load('lista04/ensemble_100.npy')
 p_infty_100 = p_infty(ensemble_100)
 
+# ensemble_200 = ensemble_leath(L=200)
+# np.save(
+#     file='lista04/ensemble_200',
+#     arr=ensemble_200,
+# )
 ensemble_200 = np.load('lista04/ensemble_200.npy')
 p_infty_200 = p_infty(ensemble_200)
 
@@ -157,7 +184,10 @@ x_3c_fit = np.linspace(
 y_3c_fit = A_3c * x_3c_fit ** k_3c
 ax_3c.plot(x_3c_fit, y_3c_fit)
 
+
 # item 3. d)  #######################
+
+dist_3d = n_s(ensemble_200)
 
 
 def main():
@@ -178,7 +208,7 @@ def main():
 
     # Exercício 3.a)
 
-    # fig3a.savefig(
+    # fig_3a.savefig(
     #     fname='lista04/fig_3a.pdf',
     # )
 
@@ -193,36 +223,6 @@ def main():
 
     # Exercício 3.c)
 
-    # ensemble_10 = ensemble_leath(L=10)
-    # np.save(
-    #     file='lista04/ensemble_10',
-    #     arr=ensemble_10,
-    # )
-
-    # ensemble_20 = ensemble_leath(L=20)
-    # np.save(
-    #     file='lista04/ensemble_20',
-    #     arr=ensemble_20,
-    # )
-
-    # ensemble_50 = ensemble_leath(L=50)
-    # np.save(
-    #     file='lista04/ensemble_50',
-    #     arr=ensemble_50,
-    # )
-
-    # ensemble_100 = ensemble_leath(L=100)
-    # np.save(
-    #     file='lista04/ensemble_100',
-    #     arr=ensemble_100,
-    # )
-
-    # ensemble_200 = ensemble_leath(L=200)
-    # np.save(
-    #     file='lista04/ensemble_200',
-    #     arr=ensemble_200,
-    # )
-
     # fig_3c.savefig(
     #     fname='lista04/fig_3c.pdf',
     # )
@@ -231,6 +231,11 @@ def main():
     #     f.write(fit_3c.fit_report())
 
     # Exercício 3.d)
+
+    np.savetxt(
+        fname='lista04/n_s_3d.txt',
+        X=dist_3d
+    )
 
     # plt.show()
     exit()

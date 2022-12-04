@@ -1,6 +1,7 @@
 import lmfit
-# import matplotlib.pyplot as plt
 import numpy as np
+
+from scipy.ndimage import label
 from scipy.optimize import curve_fit
 from scipy.special import comb
 from scipy.stats import entropy
@@ -439,7 +440,7 @@ def leath(L: int, p: float = 0.5927) -> np.ndarray:
         array = iteracao_leath(array, p)
         array = primeiros_vizinhos(array)
 
-    return array
+    return array[:, :, 0]
 
 
 def ensemble_leath(L: int, N: int = 10000) -> np.ndarray:
@@ -447,13 +448,43 @@ def ensemble_leath(L: int, N: int = 10000) -> np.ndarray:
     array = np.zeros(shape=formato, dtype=int)
 
     for n in trange(N, desc='Ensemble de Cluster Leath para L = ' + str(L)):
-        array[:, :, n] = leath(L)[:, :, 0]
+        array[:, :, n] = leath(L)
 
     return array
 
 
-def p_infty(ensemble: np.ndarray):
+def p_infty(ensemble: np.ndarray) -> float:
     P_N = np.mean(ensemble, axis=(0, 1))
     P = np.mean(P_N)
 
     return P
+
+
+def n_s(ensemble: np.ndarray) -> float:
+    formato = np.shape(ensemble)
+    N = formato[2]
+
+    novo_ensemble = np.zeros(
+        shape=formato,
+        dtype=int
+    )
+    nums = np.zeros(N, dtype=int)
+
+    for i in range(N):
+        array = ensemble[:, :, i]
+        lw, num = label(array)
+        nums[i] = num
+        novo_ensemble[:, :, i] = lw
+
+    s_max = np.max(nums)
+    dist = np.zeros((N, s_max), dtype=int)
+
+    for i in trange(N, desc='Distribuição de clusters n_s'):
+        for s in range(1, s_max + 1):
+            array = novo_ensemble[:, :, i]
+            if (s in array[0, :]) and (s in array[-1, :]) and (s in array[:, 0]) and ((s in array[:, -1])):
+                dist[i, s - 1] = 0
+            else:
+                dist[i, s - 1] = 1
+    
+    return np.mean(dist, axis=0)

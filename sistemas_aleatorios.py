@@ -460,31 +460,21 @@ def p_infty(ensemble: np.ndarray) -> float:
     return P
 
 
-def n_s(ensemble: np.ndarray) -> float:
+def verificar_percolacao(array: np.ndarray) -> bool:
+    return ((1 in array[0, :]) and (1 in array[-1, :]) and (1 in array[:, 0]) and ((1 in array[:, -1])))
+
+
+def cont_s(ensemble: np.ndarray) -> float:
     formato = np.shape(ensemble)
     N = formato[2]
 
-    novo_ensemble = np.zeros(
-        shape=formato,
-        dtype=int
-    )
-    nums = np.zeros(N, dtype=int)
-
-    for i in range(N):
-        array = ensemble[:, :, i]
-        lw, num = label(array)
-        nums[i] = num
-        novo_ensemble[:, :, i] = lw
-
-    s_max = np.max(nums)
-    dist = np.zeros((N, s_max), dtype=int)
+    cont = np.zeros(N, dtype=int)
 
     for i in trange(N, desc='Distribuição de clusters n_s'):
-        for s in range(1, s_max + 1):
-            array = novo_ensemble[:, :, i]
-            if (s in array[0, :]) and (s in array[-1, :]) and (s in array[:, 0]) and ((s in array[:, -1])):
-                dist[i, s - 1] = 0
-            else:
-                dist[i, s - 1] = 1
+        array = ensemble[:, :, i]
+        if verificar_percolacao(array) == False:
+            cont[i] = np.sum(array)
+        else:
+            cont[i] = 0
     
-    return np.mean(dist, axis=0)
+    return cont

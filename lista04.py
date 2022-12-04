@@ -2,12 +2,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import lmfit
 
-from sistemas_aleatorios import regra_90, massa_vec, leath, ensemble_leath, p_infty, n_s
+from sistemas_aleatorios import regra_90, massa_vec, leath, ensemble_leath, p_infty, cont_s
 
 plt.rcParams.update({
     "text.usetex": True,
     "font.family": "serif",
-    # "figure.dpi": 1000,
+    "figure.dpi": 1000,
 })
 
 
@@ -187,7 +187,31 @@ ax_3c.plot(x_3c_fit, y_3c_fit)
 
 # item 3. d)  #######################
 
-dist_3d = n_s(ensemble_200)
+cont_3d = cont_s(ensemble_200)
+
+bins_3d = np.arange(
+    start=1,
+    stop=(np.max(cont_3d) + 1) + 1
+)
+
+fig_3d, ax_3d = plt.subplots()
+ax_3d.set_title('Gráfico $n_s \\times s$ ($L = 200$)')
+# ax_3d.grid(visible=True)
+
+ax_3d.set_xlabel('$s$')
+# ax_3d.set_xlim(0, 210)
+
+ax_3d.set_ylabel('$n_s$')
+# ax_3d.set_ylim(0, 500)
+
+ax_3d.hist(
+    x=cont_3d,
+    bins=bins_3d,
+    # histtype='stepfilled',
+    edgecolor='black',
+    color='black',
+    align='left',
+)
 
 
 def main():
@@ -232,10 +256,14 @@ def main():
 
     # Exercício 3.d)
 
-    np.savetxt(
-        fname='lista04/n_s_3d.txt',
-        X=dist_3d
-    )
+    # np.savetxt(
+    #     fname='lista04/n_s_3d.txt',
+    #     X=dist_3d
+    # )
+
+    # fig_3d.savefig(
+    #     fname='lista04/fig_3d.pdf',
+    # )
 
     # plt.show()
     exit()

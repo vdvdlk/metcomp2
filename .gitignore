@@ -1,5 +1,6 @@
 __pycache__
 .ipynb_checkpoints
+.venv
 .vscode
 Aulas
 lista04/ensemble_50.npy
@@ -8,7 +9,6 @@ lista04/ensemble_20.npy
 lista04/ensemble_100.npy
 lista04/ensemble_200.npy
 Listas
-venv
 caderno.xopp
 lista01.ipynb
 lista02.ipynb

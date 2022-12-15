@@ -1,7 +1,18 @@
 from numpy import (arange, array, identity, kron, linspace, matmul, ndarray,
-                   zeros)
+                   ndindex, zeros, ones)
 from numpy.linalg import eigh
 from tqdm.auto import trange
+
+
+def imprimir_base(N: int):
+    base = ['+', '-']
+    array_indices = 2 * ones(N, dtype=int)
+
+    for indices in ndindex(tuple(array_indices)):
+        string = ''
+        for indice in indices:
+            string += base[indice]
+        print('|' + string + '>')
 
 
 def S_i_x(N: int, i: int) -> ndarray:
@@ -90,7 +101,7 @@ def hamiltoniana_N(N: int, lamda: float) -> ndarray:
     return -(termo_int + lamda * termo_campo)
 
 
-def diagonalizacao_N(N: int, lamda_min: float = 0.0, lamda_max: float = 5.0, num: int = 1000):
+def diagonalizacao_N(N: int, lamda_min: float = 0.0, lamda_max: float = 2.0, num: int = 1000):
     array_lamda = linspace(
         start=lamda_min,
         stop=lamda_max,
@@ -107,7 +118,7 @@ def diagonalizacao_N(N: int, lamda_min: float = 0.0, lamda_max: float = 5.0, num
         dtype=complex,
     )
 
-    for k in trange(array_lamda.size, desc='Diagonalização da cadeia de Ising transverso para ' + str(N) + ' sítios.'):
+    for k in trange(array_lamda.size, desc='Diagonalização da cadeia de Ising transverso para ' + str(N) + ' sítios'):
         H = hamiltoniana_N(
             N=N,
             lamda=array_lamda[k],

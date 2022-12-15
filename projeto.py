@@ -1,70 +1,44 @@
-import matplotlib.pyplot as plt
-import numpy as np
+from numpy import argwhere, diff, sign
+from matplotlib.pyplot import subplots, show
 
 from cadeia_ising_transverso import diagonalizacao_N
 
 
 # Diagonalização exata de cadeia finita
 
+
+def intersec_grafico(f, g):
+    return argwhere(diff(sign(f - g))).flatten()
+
+
+def grafico_autoval_cf(N: int):
+    lamda, autoval, autovet = diagonalizacao_N(N=N)
+
+    fig, ax = subplots()
+    ax.set_title('Autovalores em função de $\lambda$ (N = ' + str(N) + ')')
+    ax.set_xlabel('$\lambda$')
+    ax.set_ylabel('Energia')
+
+    for k in range(2 ** N):
+        ax.plot(lamda, autoval[:, k])
+
+    return fig
+
+
 # N = 2
-
-lamda_2, autoval_2, autovet_2 = diagonalizacao_N(
-    N=2,
-)
-
-fig_2, ax_2 = plt.subplots()
-ax_2.set_title('Autovalores em função de $\lambda$ (N = 2)')
-ax_2.set_xlabel('$\lambda$')
-ax_2.set_ylabel('Energia')
-
-for k in range(2 ** 2):
-    ax_2.plot(lamda_2, autoval_2[:, k])
-
+fig_2 = grafico_autoval_cf(2)
 
 # N = 4
 
-lamda_4, autoval_4, autovet_4 = diagonalizacao_N(
-    N=4,
-)
-
-fig_4, ax_4 = plt.subplots()
-ax_4.set_title('Autovalores em função de $\lambda$ (N = 4)')
-ax_4.set_xlabel('$\lambda$')
-ax_4.set_ylabel('Energia')
-
-for k in range(2 ** 4):
-    ax_4.plot(lamda_4, autoval_4[:, k])
-
+fig_4 = grafico_autoval_cf(4)
 
 # N = 6
 
-lamda_6, autoval_6, autovet_6 = diagonalizacao_N(
-    N=6,
-)
-
-fig_6, ax_6 = plt.subplots()
-ax_6.set_title('Autovalores em função de $\lambda$ (N = 6)')
-ax_6.set_xlabel('$\lambda$')
-ax_6.set_ylabel('Energia')
-
-for k in range(2 ** 6):
-    ax_6.plot(lamda_6, autoval_6[:, k])
-
+fig_6 = grafico_autoval_cf(6)
 
 # N = 8  (5 min)
 
-lamda_8, autoval_8, autovet_8 = diagonalizacao_N(
-    N=8,
-)
-
-fig_8, ax_8 = plt.subplots()
-ax_8.set_title('Autovalores em função de $\lambda$ (N = 8)')
-ax_8.set_xlabel('$\lambda$')
-ax_8.set_ylabel('Energia')
-
-for k in range(2 ** 8):
-    ax_8.plot(lamda_8, autoval_8[:, k])
+fig_8 = grafico_autoval_cf(8)
 
 
-plt.show()
-
+show()

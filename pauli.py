@@ -1,14 +1,15 @@
-import numpy as np
+from numpy import ndarray, identity, zeros
 
-def matriz_pauli(j: int):
+
+def matriz_pauli(j: int) -> ndarray:
     i = complex(0, 1)
 
-    delta_k = np.identity(
+    delta_k = identity(
         n=3,
         dtype=int
     )
 
-    matriz = np.zeros(
+    matriz = zeros(
         shape=(2, 2),
         dtype=complex,
     )

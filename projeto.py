@@ -1,53 +1,55 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
-from pauli import matriz_pauli
-
-
-
+from cadeia_ising_transverso import diagonalizacao_N
 
 
+# Diagonalização exata de cadeia finita
 
-# def hamiltoniana_2(lamda):
-#     H = np.zeros(
-#         shape=(4, 4)
-#     )
+# N = 2
 
-#     H[0, 0] = - 1
-#     H[0, 1] = - lamda
-#     H[0, 2] = - lamda
+lamda_2, autoval_2, autovet_2 = diagonalizacao_N(
+    N=2,
+)
 
-#     H[1, 0] = - lamda
-#     H[1, 1] = 1
-#     H[1, 3] = - lamda
+fig_2, ax_2 = plt.subplots()
+ax_2.set_title('Autovalores em função de $\lambda$ (N = 2)')
+ax_2.set_xlabel('$\lambda$')
+ax_2.set_ylabel('Energia')
 
-#     H[2, 0] = - lamda
-#     H[2, 2] = 1
-#     H[2, 3] = - lamda
-
-#     H[3, 1] = - lamda
-#     H[3, 2] = - lamda
-#     H[3, 3] = -1
-
-#     return H
+for k in range(2 ** 2):
+    ax_2.plot(lamda_2, autoval_2[:, k])
 
 
-# lamda = np.linspace(
-#     start=0,
-#     stop=10,
-#     num=100,
-# )
+# N = 4
 
-# autovalores = np.zeros(
-#     shape=lamda.shape
-# )
+lamda_4, autoval_4, autovet_4 = diagonalizacao_N(
+    N=4,
+)
 
-# for L in lamda:
+fig_4, ax_4 = plt.subplots()
+ax_4.set_title('Autovalores em função de $\lambda$ (N = 4)')
+ax_4.set_xlabel('$\lambda$')
+ax_4.set_ylabel('Energia')
+
+for k in range(2 ** 4):
+    ax_4.plot(lamda_4, autoval_4[:, k])
 
 
-# print(np.linalg.eigh(
-#     a=hamiltoniana_2(0),
-#     UPLO='U'
-# ))
+# N = 8  (5 min)
 
-# def
+lamda_8, autoval_8, autovet_8 = diagonalizacao_N(
+    N=8,
+)
+
+fig_8, ax_8 = plt.subplots()
+ax_8.set_title('Autovalores em função de $\lambda$ (N = 8)')
+ax_8.set_xlabel('$\lambda$')
+ax_8.set_ylabel('Energia')
+
+for k in range(2 ** 8):
+    ax_8.plot(lamda_8, autoval_8[:, k])
+
+
+plt.show()
+

@@ -6,21 +6,21 @@
 # In[1]:
 
 
-import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from mpl_toolkits.mplot3d import axes3d
-from matplotlib.ticker import LinearLocator
+import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib import cm
+from matplotlib.ticker import LinearLocator
+from mpl_toolkits.mplot3d import axes3d
 
 from edp import difusao_2d
-from sistemas_aleatorios import rwalk, coeficiente_D, rwalk_2d, cafe_com_creme, entropia, pos_ocup_2, dla, massa_cluster, dim_fractal
 from matrizes import mprint
+from sistemas_aleatorios import (cafe_com_creme, coeficiente_D, dim_fractal,
+                                 dla, entropia, massa_cluster, pos_ocup_2,
+                                 rwalk, rwalk_2d)
 
 tamanho_mark = 1
 tamanho_plot = (10, 10)
-
-get_ipython().run_line_magic('matplotlib', 'widget')
 
 
 # https://mathworld.wolfram.com/RandomWalk1-Dimensional.html
@@ -129,17 +129,20 @@ axs_3a[1, 1].set_aspect('equal')
 axs_3a[1, 1].grid()
 
 for particula in range(np.shape(posicoes)[0]):
-    axs_3a[0, 0].plot(posicoes[particula, 0, 0], posicoes[particula, 0, 1], '.', color='black')
-    axs_3a[0, 1].plot(posicoes[particula, 100, 0], posicoes[particula, 100, 1], '.', color='black')
-    axs_3a[1, 0].plot(posicoes[particula, 1000, 0], posicoes[particula, 1000, 1], '.', color='black')
-    axs_3a[1, 1].plot(posicoes[particula, 10000, 0], posicoes[particula, 10000, 1], '.', color='black')
+    axs_3a[0, 0].plot(posicoes[particula, 0, 0],
+                      posicoes[particula, 0, 1], '.', color='black')
+    axs_3a[0, 1].plot(posicoes[particula, 100, 0],
+                      posicoes[particula, 100, 1], '.', color='black')
+    axs_3a[1, 0].plot(posicoes[particula, 1000, 0],
+                      posicoes[particula, 1000, 1], '.', color='black')
+    axs_3a[1, 1].plot(posicoes[particula, 10000, 0],
+                      posicoes[particula, 10000, 1], '.', color='black')
 
 fig_3b, ax_3b = plt.subplots()
 ax_3b.set_title('Entropia da xícara em função do tempo')
 ax_3b.set_xlabel('$t$')
 ax_3b.set_ylabel('$S$')
 ax_3b.plot(S_4)
-
 
 
 # # Exercício 4
@@ -168,7 +171,8 @@ Ym_4 = Ym_4.transpose()
 
 
 rho_0_4a = np.zeros(dim_4)
-rho_0_4a[meio_4[0] - 2:meio_4[0] + 2 + 1, meio_4[1] - 2:meio_4[1] + 2 + 1] = 1.0
+rho_0_4a[meio_4[0] - 2:meio_4[0] + 2 + 1,
+         meio_4[1] - 2:meio_4[1] + 2 + 1] = 1.0
 
 # mprint(rho_0_4a)
 
@@ -187,7 +191,8 @@ rho_4a = difusao_2d(
 # In[103]:
 
 
-fig_4a, axes_4a = plt.subplots(nrows=2, ncols=2, subplot_kw={"projection": "3d"})
+fig_4a, axes_4a = plt.subplots(
+    nrows=2, ncols=2, subplot_kw={"projection": "3d"})
 fig_4a.suptitle('Densidade de massa em função de $x$ e $y$')
 fig_4a.set_size_inches(tamanho_plot)
 
@@ -231,7 +236,8 @@ rho_4b = difusao_2d(
 # In[102]:
 
 
-fig_4b, axes_4b = plt.subplots(nrows=2, ncols=2, subplot_kw={"projection": "3d"})
+fig_4b, axes_4b = plt.subplots(
+    nrows=2, ncols=2, subplot_kw={"projection": "3d"})
 fig_4b.suptitle('Densidade de massa em função de $x$ e $y$')
 fig_4b.set_size_inches(tamanho_plot)
 
@@ -255,7 +261,7 @@ for ax in axes_4b.flat:
 # In[112]:
 
 
-rho_0_4c = np.cos( np.pi / 2 * Xm_4 / 0.5) * np.cos( np.pi / 2 * Ym_4 / 0.5)
+rho_0_4c = np.cos(np.pi / 2 * Xm_4 / 0.5) * np.cos(np.pi / 2 * Ym_4 / 0.5)
 # rho_0_4c[:, meio_4[1]] = 1.0
 
 mprint(rho_0_4c)
@@ -275,7 +281,8 @@ rho_4c = difusao_2d(
 # In[114]:
 
 
-fig_4c, axes_4c = plt.subplots(nrows=2, ncols=2, subplot_kw={"projection": "3d"})
+fig_4c, axes_4c = plt.subplots(
+    nrows=2, ncols=2, subplot_kw={"projection": "3d"})
 fig_4c.suptitle('Densidade de massa em função de $x$ e $y$')
 fig_4c.set_size_inches(tamanho_plot)
 
@@ -383,4 +390,3 @@ print(d_f)
 
 # fig_5a.savefig(fname='lista03/' + 'fig_5a.pdf')
 # fig_5b.savefig(fname='lista03/' + 'fig_5b.pdf')
-

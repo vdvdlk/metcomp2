@@ -4,10 +4,11 @@
 # In[1]:
 
 
-# from array import array
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 from edo2 import euler, eulercromer, rungekutta
+
 # from pint import UnitRegistry
 
 # un = UnitRegistry()
@@ -371,7 +372,7 @@ fig2c2.savefig('lista01/fig2c2.pdf', format='pdf')
 # In[14]:
 
 
-Omega_D_d = 0.55 # (1 / 2) * Omega_D
+Omega_D_d = 0.55  # (1 / 2) * Omega_D
 T_D_d = (2 * np.pi) / Omega_D_d
 
 
@@ -449,7 +450,7 @@ fig2d2.set_size_inches(tamanho_plot)
 
 
 # ## Exercício 3
-# 
+#
 # $$\frac{d^2 x}{dt^2} = - k x^\alpha = f(x, t)$$
 
 # In[17]:
@@ -487,8 +488,10 @@ x_3an = np.cos(t_3an)
 
 
 fig3a, ax3a = plt.subplots()
-ax3a.plot(t_3an, x_3an, 'o',  markersize=3, color='black', label='Solução analítica')
-ax3a.plot(t_31, x_31, 'o', markersize=tamanho_mark, label='Euler-Cromer')  # tamanho_mark
+ax3a.plot(t_3an, x_3an, 'o',  markersize=3,
+          color='black', label='Solução analítica')
+ax3a.plot(t_31, x_31, 'o', markersize=tamanho_mark,
+          label='Euler-Cromer')  # tamanho_mark
 ax3a.set_title('Gráfico de $x$ por $t$ ($\\alpha = 1$)')
 ax3a.set_xlabel('$t$ (s)')
 ax3a.set_ylabel('$x$ (m)')
@@ -523,7 +526,8 @@ ax3b.xaxis.grid()
 ax3b.yaxis.grid()
 fig3b.set_size_inches(tamanho_plot)
 
-ax3b.plot(t_3an, x_3an, '-', color='black', label='Solução analítica para $\\alpha = 1$')
+ax3b.plot(t_3an, x_3an, '-', color='black',
+          label='Solução analítica para $\\alpha = 1$')
 
 for x_0 in np.linspace(0.2, 1, 5):
     x_3i, v_3i, t_3i = eulercromer(
@@ -564,4 +568,3 @@ print(np.linspace(0.2, 1, 5))
 # fig2d2.savefig('lista01/fig2d2.pdf', format='pdf')
 # fig3a.savefig('lista01/fig3a.pdf', format='pdf')
 # fig3b.savefig('lista01/fig3b.pdf', format='pdf')
-

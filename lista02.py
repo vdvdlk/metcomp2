@@ -4,16 +4,19 @@
 # In[1]:
 
 
+from copy import deepcopy
+from math import ceil, floor
+
+import matplotlib.animation as animation
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib import cm
+from matplotlib.ticker import LinearLocator
+
 import matrizes
 import tensor3
 from edp import laplace_2d, poisson_3d, propagate
-from matplotlib.ticker import LinearLocator
-from matplotlib import cm
-import numpy as np
-import matplotlib.animation as animation
-import matplotlib.pyplot as plt
-from math import ceil, floor
-from copy import deepcopy
+
 # %matplotlib widget
 
 
@@ -489,7 +492,8 @@ fig_4, ax_4 = plt.subplots()
 
 ax_4.set_xlim(0, 1)
 ax_4.set_ylim(-1, 1)
-ax_4.set_title('Propagação de ondas numa corda com extremidades livres \n ($r$ = 1, $c$ = 0.2 m/s)')
+ax_4.set_title(
+    'Propagação de ondas numa corda com extremidades livres \n ($r$ = 1, $c$ = 0.2 m/s)')
 ax_4.set_xlabel('$x$ (m)')
 ax_4.set_ylabel('$y$ (cm)')
 
@@ -550,7 +554,8 @@ fig_4a, ax_4a = plt.subplots()
 
 ax_4a.set_xlim(0, 1)
 ax_4a.set_ylim(-1, 1)
-ax_4a.set_title('Propagação de ondas numa corda com extremidades livres \n ($r$ = 0.1, $c$ = 0.2 m/s)')
+ax_4a.set_title(
+    'Propagação de ondas numa corda com extremidades livres \n ($r$ = 0.1, $c$ = 0.2 m/s)')
 ax_4a.set_xlabel('$x$ (m)')
 ax_4a.set_ylabel('$y$ (cm)')
 
@@ -611,7 +616,8 @@ fig_4b, ax_4b = plt.subplots()
 
 ax_4b.set_xlim(0, 1)
 ax_4b.set_ylim(-1, 1)
-ax_4b.set_title('Propagação de ondas numa corda com extremidades livres \n ($r$ = 2, $c$ = 0.2 m/s)')
+ax_4b.set_title(
+    'Propagação de ondas numa corda com extremidades livres \n ($r$ = 2, $c$ = 0.2 m/s)')
 ax_4b.set_xlabel('$x$ (m)')
 ax_4b.set_ylabel('$y$ (cm)')
 
@@ -651,7 +657,3 @@ ani_4b = animation.FuncAnimation(
 
 
 # In[ ]:
-
-
-
-

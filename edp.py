@@ -104,9 +104,10 @@ def difusao_2d(rho_0, t_f, dx, D, dt=False):
     rho_t[:, :, 0] = rho_0
 
     for n in trange(n_max - 1, desc='Difusão'):
-    # for n in range(n_max - 1):
+        # for n in range(n_max - 1):
         for i in range(1, i_max - 1):
             for j in range(1, j_max - 1):
-                rho_t[i, j, n + 1] = rho_t[i, j, n] + (D * dt / (dx)**2) * (rho_t[i + 1, j, n] + rho_t[i - 1, j, n] - 2 * rho_t[i, j, n] + rho_t[i, j + 1, n] + rho_t[i, j - 1, n] - 2 * rho_t[i, j, n])
+                rho_t[i, j, n + 1] = rho_t[i, j, n] + (D * dt / (dx)**2) * (
+                    rho_t[i + 1, j, n] + rho_t[i - 1, j, n] - 2 * rho_t[i, j, n] + rho_t[i, j + 1, n] + rho_t[i, j - 1, n] - 2 * rho_t[i, j, n])
 
     return rho_t

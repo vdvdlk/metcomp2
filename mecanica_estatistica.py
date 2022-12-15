@@ -1,8 +1,9 @@
+from copy import deepcopy
+
 import matplotlib.pyplot as plt
 import numpy as np
-from copy import deepcopy
-from tqdm.auto import trange
 from scipy.constants import Boltzmann
+from tqdm.auto import trange
 
 
 def fator_boltzmann(E, T, si=False):
@@ -23,9 +24,6 @@ def inicializar_spins(L, t):
     array[:, :, 0] = np.random.choice(a=[-1, 1], size=(L, L))
     # return np.ones((L, L, t + 1), dtype=int)
     return array
-
-
-
 
 
 def soma_dupla_primeiros_vizinhos(spins):
@@ -54,7 +52,6 @@ def soma_dupla_primeiros_vizinhos(spins):
     return soma
 
 
-
 def energia_total(spins, J, H, mu):
     termo_inter = - J * soma_dupla_primeiros_vizinhos(spins)
     termo_mag = - mu * H * np.sum(spins)
@@ -69,9 +66,6 @@ def energia_flip(spins, i, j, J, H, mu):
     energia_final = energia_total(spins_final, J, H, mu)
 
     return energia_final - energia_inicial
-
-
-
 
 
 def ising_montecarlo_metropolis_geral(T, J=1.0, H=0.0, mu=0.0, L=10, t=1000):
@@ -90,7 +84,6 @@ def ising_montecarlo_metropolis_geral(T, J=1.0, H=0.0, mu=0.0, L=10, t=1000):
                         array_spins[i, j, k + 1] = (- 1) * array_spins[i, j, k]
 
     return array_spins
-
 
 
 def soma_primeiros_vizinhos(spins, i, j):

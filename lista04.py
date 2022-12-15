@@ -1,8 +1,9 @@
+import lmfit
 import matplotlib.pyplot as plt
 import numpy as np
-import lmfit
 
-from sistemas_aleatorios import regra_90, massa_vec, leath, ensemble_leath, p_infty, cont_s
+from sistemas_aleatorios import (cont_s, ensemble_leath, leath, massa_vec,
+                                 p_infty, regra_90)
 
 plt.rcParams.update({
     "text.usetex": True,

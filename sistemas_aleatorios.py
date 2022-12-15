@@ -1,6 +1,5 @@
 import lmfit
 import numpy as np
-
 from scipy.ndimage import label
 from scipy.optimize import curve_fit
 from scipy.special import comb
@@ -476,5 +475,5 @@ def cont_s(ensemble: np.ndarray) -> float:
             cont[i] = np.sum(array)
         else:
             cont[i] = 0
-    
+
     return cont

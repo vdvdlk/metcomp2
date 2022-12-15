@@ -1,21 +1,23 @@
-from numpy import arange, identity, kron, linspace, matmul, ndarray, zeros
+from numpy import (arange, array, identity, kron, linspace, matmul, ndarray,
+                   zeros)
 from numpy.linalg import eigh
 from tqdm.auto import trange
 
-from pauli import matriz_pauli
-
 
 def S_i_x(N: int, i: int) -> ndarray:
-    S_x = matriz_pauli(j=1)
+    S_x = array(
+        object=[[0, 1], [1, 0]],
+        dtype=float,
+    )
 
     I = identity(
         n=2,
-        dtype=complex,
+        dtype=float,
     )
 
     matriz = identity(
         n=1,
-        dtype=complex,
+        dtype=float,
     )
 
     for j in arange(1, N + 1):
@@ -34,16 +36,20 @@ def S_i_x(N: int, i: int) -> ndarray:
 
 
 def S_i_z(N: int, i: int) -> ndarray:
-    S_z = matriz_pauli(j=3)
+    S_z = array([[1, 0], [0, -1]])
+    S_z = array(
+        object=[[1, 0], [0, -1]],
+        dtype=float,
+    )
 
     I = identity(
         n=2,
-        dtype=complex,
+        dtype=float,
     )
 
     matriz = identity(
         n=1,
-        dtype=complex,
+        dtype=float,
     )
 
     for j in arange(1, N + 1):
@@ -64,12 +70,12 @@ def S_i_z(N: int, i: int) -> ndarray:
 def hamiltoniana_N(N: int, lamda: float) -> ndarray:
     termo_int = zeros(
         shape=(2 ** N, 2 ** N),
-        dtype=complex,
+        dtype=float,
     )
 
     termo_campo = zeros(
         shape=(2 ** N, 2 ** N),
-        dtype=complex,
+        dtype=float,
     )
 
     for i in arange(1, (N - 1) + 1):
@@ -93,7 +99,7 @@ def diagonalizacao_N(N: int, lamda_min: float = 0.0, lamda_max: float = 5.0, num
 
     autovalores = zeros(
         shape=(array_lamda.size, 2 ** N),
-        dtype=complex,
+        dtype=float,
     )
 
     autovetores = zeros(

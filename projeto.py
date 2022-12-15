@@ -36,6 +36,21 @@ for k in range(2 ** 4):
     ax_4.plot(lamda_4, autoval_4[:, k])
 
 
+# N = 6
+
+lamda_6, autoval_6, autovet_6 = diagonalizacao_N(
+    N=6,
+)
+
+fig_6, ax_6 = plt.subplots()
+ax_6.set_title('Autovalores em função de $\lambda$ (N = 6)')
+ax_6.set_xlabel('$\lambda$')
+ax_6.set_ylabel('Energia')
+
+for k in range(2 ** 6):
+    ax_6.plot(lamda_6, autoval_6[:, k])
+
+
 # N = 8  (5 min)
 
 lamda_8, autoval_8, autovet_8 = diagonalizacao_N(

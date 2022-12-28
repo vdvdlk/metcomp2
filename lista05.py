@@ -137,9 +137,14 @@ axs_1d[0].plot(
     label='Solução numérica',
 )
 
+array_T_1d = np.linspace(
+    start=0.0,
+    stop=6.0,
+    num=1000
+)
 axs_1d[0].plot(
-    array_T,
-    magnetizacao(z=6, T=array_T),
+    array_T_1d,
+    magnetizacao(z=6, T=array_T_1d),
     label='Solução analítica para $<s>$ pequeno'
 )
 

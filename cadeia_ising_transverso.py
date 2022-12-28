@@ -1,17 +1,14 @@
-from numpy import (arange, array, identity, kron, linspace, matmul, ndarray,
-                   ndindex, ones, save, zeros)
-from numpy.linalg import eigvalsh
+import numpy as np
+import numpy.linalg as LA
 from tqdm.auto import trange
-
-N_max = 10
 
 
 def imprimir_base(N: int):
     base = ['+', '-']
-    array_indices = 2 * ones(N, dtype=int)
+    array_indices = 2 * np.ones(N, dtype=int)
 
     i = 0
-    for indices in ndindex(tuple(array_indices)):
+    for indices in np.ndindex(tuple(array_indices)):
         string = ''
         for indice in indices:
             string += base[indice]
@@ -19,31 +16,31 @@ def imprimir_base(N: int):
         i += 1
 
 
-def S_i_x(N: int, i: int) -> ndarray:
-    S_x = array(
+def S_i_x(N: int, i: int) -> np.ndarray:
+    S_x = np.array(
         # object=[[0, 1], [1, 0]],  # base z
         object=[[1, 0], [0, -1]],  # base x
         dtype=complex,
     )
 
-    I = identity(
+    I = np.identity(
         n=2,
         dtype=complex,
     )
 
-    matriz = identity(
+    matriz = np.identity(
         n=1,
         dtype=complex,
     )
 
-    for j in arange(1, N + 1):
+    for j in np.arange(1, N + 1):
         if j == i:
-            matriz = kron(
+            matriz = np.kron(
                 a=matriz,
                 b=S_x,
             )
         else:
-            matriz = kron(
+            matriz = np.kron(
                 a=matriz,
                 b=I,
             )
@@ -51,32 +48,32 @@ def S_i_x(N: int, i: int) -> ndarray:
     return matriz
 
 
-def S_i_z(N: int, i: int) -> ndarray:
+def S_i_z(N: int, i: int) -> np.ndarray:
     # un_im = complex(0, 1)
-    S_z = array(
+    S_z = np.array(
         # object=[[1, 0], [0, -1]],  # base z
         object=[[0, 1], [1, 0]],  # base x
         dtype=complex,
     )
 
-    I = identity(
+    I = np.identity(
         n=2,
         dtype=complex,
     )
 
-    matriz = identity(
+    matriz = np.identity(
         n=1,
         dtype=complex,
     )
 
-    for j in arange(1, N + 1):
+    for j in np.arange(1, N + 1):
         if j == i:
-            matriz = kron(
+            matriz = np.kron(
                 a=matriz,
                 b=S_z,
             )
         else:
-            matriz = kron(
+            matriz = np.kron(
                 a=matriz,
                 b=I,
             )
@@ -84,67 +81,43 @@ def S_i_z(N: int, i: int) -> ndarray:
     return matriz
 
 
-# def hamiltoniana_N(N: int, lamda: float) -> ndarray:
-#     termo_int = zeros(
-#         shape=(2 ** N, 2 ** N),
-#         dtype=complex,
-#     )
-
-#     termo_campo = zeros(
-#         shape=(2 ** N, 2 ** N),
-#         dtype=complex,
-#     )
-
-#     for i in arange(1, (N - 1) + 1):
-#         termo_int += matmul(
-#             S_i_z(N=N, i=i),
-#             S_i_z(N=N, i=i + 1),
-#         )
-
-#     for i in arange(1, N + 1):
-#         termo_campo += S_i_x(N=N, i=i)
-
-#     return -(termo_int + lamda * termo_campo)
-
-
-def hamiltoniana_N(N: int, lamda: float, ccp: bool = True) -> ndarray:
-    termo_int = zeros(
+def hamiltoniana_N(N: int, lamda: float, ccp: bool) -> np.ndarray:
+    termo_int = np.zeros(
         shape=(2 ** N, 2 ** N),
         dtype=complex,
     )
 
-    termo_campo = zeros(
+    termo_campo = np.zeros(
         shape=(2 ** N, 2 ** N),
         dtype=complex,
     )
 
-    for i in arange(1, (N - 1) + 1):
-        termo_int += matmul(
+    for i in np.arange(1, (N - 1) + 1):
+        termo_int += np.matmul(
             S_i_z(N=N, i=i),
             S_i_z(N=N, i=i + 1),
         )
 
     if N != 2 and ccp == True:
-        termo_int += matmul(
+        termo_int += np.matmul(
             S_i_z(N=N, i=N),
             S_i_z(N=N, i=1)
         )
 
-    I_N = identity(
+    I_N = np.identity(
         n=2 ** N,
         dtype=complex
     )
 
-    for i in arange(1, N + 1):
+    for i in np.arange(1, N + 1):
         termo_campo += I_N - S_i_x(N=N, i=i)
 
     return termo_campo - lamda * termo_int
 
 
-def diagonalizacao_N(N: int, array_lamda: ndarray):
+def diagonalizacao_N(N: int, array_lamda: np.ndarray, ccp: bool) -> np.ndarray:
 
-    autovalores = zeros(
-        # shape=(array_lamda.size, 2 ** N),
+    autovalores = np.zeros(
         shape=(array_lamda.size, 2),
         dtype=float,
     )
@@ -153,44 +126,37 @@ def diagonalizacao_N(N: int, array_lamda: ndarray):
         H = hamiltoniana_N(
             N=N,
             lamda=array_lamda[k],
+            ccp=ccp
         )
 
         # Primeiro índice: lamda, Segundo índice: nível de energia
-        autovalores[k, :] = eigvalsh(
+        autovalores[k, :] = LA.eigvalsh(
             a=H,
         )[0:2]
 
     return autovalores
 
 
-array_lamda = linspace(
+array_lamda = np.linspace(
     start=0.0,
     stop=10.0,
     num=1000,
 )
-# save(
-#     file='projeto/array_lamda',
-#     arr=array_lamda,
-# )
 
 
-def salvar_array_autoval(N: int, array_lamda: ndarray = array_lamda):
+def salvar_array_autoval(N: int, ccp: bool, array_lamda: np.ndarray = array_lamda) -> None:
     autoval = diagonalizacao_N(
         N=N,
-        array_lamda=array_lamda
+        array_lamda=array_lamda,
+        ccp=ccp
     )
-    save(
-        file='projeto/autoval_' + str(N),
+
+    string = 'projeto/autoval_'
+    if ccp == True:
+        string += 'ccp_'
+    string += str(N)
+
+    np.save(
+        file=string,
         arr=autoval,
-    )
-
-
-for N in arange(2, N_max + 1):
-    autoval = diagonalizacao_N(
-        N=N,
-        array_lamda=array_lamda
-    )
-    save(
-        file='projeto/autoval_' + str(N),
-        arr=autoval[:, 0:2],
     )

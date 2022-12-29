@@ -2,7 +2,9 @@ import lmfit
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import newton
+
 # from raizes import newton_rhaphson
+# from mecanica_estatistica import *
 
 plt.rcParams.update({
     "text.usetex": True,
@@ -30,8 +32,8 @@ array_T = np.linspace(
     num=1000
 )
 
-array_S_4 = np.zeros(array_T.size)
-array_it_4 = np.zeros(array_T.size)
+array_S_4 = np.zeros_like(array_T)
+array_it_4 = np.zeros_like(array_T)
 
 
 for i in range(array_T.size):
@@ -160,8 +162,6 @@ axs_1d[1].plot(array_T, array_it_6)
 fig_1d.set_size_inches(w=2 * 6.4, h=4.8)
 
 
-# plt.show()
-
 fig_1a.savefig(
     fname='lista05/fig_1a.pdf'
 )
@@ -174,3 +174,5 @@ fig_1c.savefig(
 fig_1d.savefig(
     fname='lista05/fig_1d.pdf'
 )
+
+plt.show()

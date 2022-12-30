@@ -1,4 +1,3 @@
-import lmfit
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import newton
@@ -53,7 +52,7 @@ fig_1a, ax_1a = plt.subplots()
 
 ax_1a.set_title('Magnetização em função da temperatura')
 ax_1a.set_xlabel('Temperatura $T$ ($J / k_B$)')
-ax_1a.set_ylabel('Magnetização $<s>$')
+ax_1a.set_ylabel('Magnetização $\\langle s \\rangle$')
 ax_1a.grid(visible=True)
 
 ax_1a.plot(array_T_1a, array_S_4_1a)
@@ -81,7 +80,7 @@ fig_1c, ax_1c = plt.subplots()
 
 ax_1c.set_title('Magnetização em função da temperatura')
 ax_1c.set_xlabel('Temperatura $T$ ($J / k_B$)')
-ax_1c.set_ylabel('Magnetização $<s>$')
+ax_1c.set_ylabel('Magnetização $M$')
 ax_1c.grid(visible=True)
 
 ax_1c.plot(
@@ -98,7 +97,7 @@ array_T_1c = np.linspace(
 ax_1c.plot(
     array_T_1c,
     magnetizacao_1c(z=4, T=array_T_1c),
-    label='Solução analítica para $<s>$ pequeno'
+    label='Solução analítica para $\\langle s \\rangle \\to 0$'
 )
 
 ax_1c.legend()
@@ -128,7 +127,7 @@ fig_1d, axs_1d = plt.subplots(
 
 axs_1d[0].set_title('Magnetização em função da temperatura')
 axs_1d[0].set_xlabel('Temperatura $T$ ($J / k_B$)')
-axs_1d[0].set_ylabel('Magnetização $<s>$')
+axs_1d[0].set_ylabel('Magnetização $\\langle s \\rangle$')
 axs_1d[0].grid(visible=True)
 
 axs_1d[0].plot(
@@ -145,7 +144,7 @@ array_T_1d = np.linspace(
 axs_1d[0].plot(
     array_T_1d,
     magnetizacao_1c(z=6, T=array_T_1d),
-    label='Solução analítica para $<s>$ pequeno'
+    label='Solução analítica para $\\langle s \\rangle \\to 0$'
 )
 
 axs_1d[1].set_title('Número de iterações em função da temperatura')
@@ -207,9 +206,37 @@ ax_2a.grid(visible=True)
 ax_2a.plot(
     array_T_2a,
     array_M_2a / N_2a,
-    'o',
-    markersize=2
+    # 'o',
+    # markersize=2
 )
+
+fig_2a2, axs_2a2 = plt.subplots(
+    nrows=2,
+    ncols=2
+)
+fig_2a2.set_size_inches(w=2 * 6.4, h=2 * 4.8)
+fig_2a2.suptitle('Magnetização em função do número de passos')
+axs_2a2[1, 0].set_xlabel('Passo')  # type: ignore
+axs_2a2[1, 1].set_xlabel('Passo')  # type: ignore
+axs_2a2[0, 0].set_ylabel('Magnetização por spin $M$')  # type: ignore
+axs_2a2[1, 0].set_ylabel('Magnetização por spin $M$')  # type: ignore
+
+lista_T_2a2 = [1.5, 2.0, 2.25, 4.0]
+lista_pos_2a2 = [(0, 0), (0, 1), (1, 0), (1, 1)]
+for l in range(len(lista_T_2a2)):
+    pos = lista_pos_2a2[l]
+    T = lista_T_2a2[l]
+    axs_2a2[pos].plot(  # type: ignore
+        me.magnetizacao(me.ising_montecarlo(T=T)) / N_2a,
+        # 'o',
+        # markersize=2,
+        # label='T = ' + str(T)
+    )
+    axs_2a2[pos].set_xlim(0, 1000)  # type: ignore
+    axs_2a2[pos].set_ylim(-1, 1)  # type: ignore
+    axs_2a2[pos].set_title('$T =' + str(T) + '$')  # type: ignore
+    axs_2a2[pos].grid(visible=True)  # type: ignore
+# axs_2a2[1].legend()
 
 
 # item 2. b)  #######################
@@ -279,7 +306,8 @@ for l in range(array_L_2b.size):
 axs_2b[0].legend()
 
 
-axs_2b[1].set_title('Calor específico em função da temperatura\n(Diferenciação numérica)')
+axs_2b[1].set_title(
+    'Calor específico em função da temperatura\n(Diferenciação numérica)')
 axs_2b[1].set_xlabel('Temperatura $T$ ($1 / k_B$)')
 axs_2b[1].set_ylabel('Calor específico por spin ($k_B$)')
 axs_2b[1].grid(visible=True)
@@ -295,14 +323,16 @@ for l in range(array_L_2b.size):
 axs_2b[1].legend()
 
 
-axs_2b[2].set_title('Calor específico em função da temperatura\n(Teorema flutuação-dissipação)')
+axs_2b[2].set_title(
+    'Calor específico em função da temperatura\n(Teorema flutuação-dissipação)')
 axs_2b[2].set_xlabel('Temperatura $T$ ($1 / k_B$)')
 axs_2b[2].set_ylabel('Calor específico por spin ($k_B$)')
 # axs_2b[2].set_ylim(0, 2)
 axs_2b[2].grid(visible=True)
 
 for l in range(array_L_2b.size):
-    array_C = me.calor_especifico_fd(array_varE_2b[l, :], array_T_2b) / array_N_2b[l]
+    array_C = me.calor_especifico_fd(
+        array_varE_2b[l, :], array_T_2b) / array_N_2b[l]
 
     axs_2b[2].plot(
         array_T_2b,
@@ -318,7 +348,8 @@ axs_2b[2].legend()
 
 array_Tc_2c = np.zeros_like(array_L_2b)
 for l in range(array_L_2b.size):
-    array_C = me.calor_especifico_fd(array_varE_2b[l, :], array_T_2b) / array_N_2b[l]
+    array_C = me.calor_especifico_fd(
+        array_varE_2b[l, :], array_T_2b) / array_N_2b[l]
     indice = np.nanargmax(array_C)
     print(
         array_L_2b[l],
@@ -328,8 +359,6 @@ for l in range(array_L_2b.size):
     )
 
 axs_2b[2].legend()
-
-# print(array_Tc_2c)
 
 
 # item 2. d)  #######################
@@ -377,6 +406,9 @@ print(
 # fig_2a.savefig(
 #     fname='lista05/fig_2a.pdf'
 # )
+fig_2a2.savefig(
+    fname='lista05/fig_2a2.pdf'
+)
 # fig_2b.savefig(
 #     fname='lista05/fig_2b.pdf'
 # )

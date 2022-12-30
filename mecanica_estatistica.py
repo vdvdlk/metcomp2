@@ -1,4 +1,3 @@
-# import matplotlib.pyplot as plt
 import numpy as np
 from tqdm.auto import trange
 
@@ -28,25 +27,29 @@ def magnetizacao(array_spins: np.ndarray) -> np.ndarray:
 
 def energia_rede(rede: np.ndarray, J: float = 1.0, mu: float = 1.0, H: float = 0.0, ccp: bool = True) -> float:
     termo_int = 0
-    termo_int += np.sum(
-        a=rede[:-1, :] * rede[1:, :]
-    )
-    termo_int += np.sum(
-        a=rede[:, :-1] * rede[:, 1:]
-    )
-    L = rede.shape[0]
-    if L != 2 and ccp == True:
-        termo_int += np.sum(
-            a=rede[-1, :] * rede[0, :]
-        )
-        termo_int += np.sum(
-            a=rede[:, -1] * rede[:, 0]
-        )
+    termo_campo = 0
 
-    termo_campo = rede.sum()
+    if J != 0.0:
+        termo_int += np.sum(
+            a=rede[:-1, :] * rede[1:, :]
+        )
+        termo_int += np.sum(
+            a=rede[:, :-1] * rede[:, 1:]
+        )
+        L = rede.shape[0]
+        if L != 2 and ccp == True:
+            termo_int += np.sum(
+                a=rede[-1, :] * rede[0, :]
+            )
+            termo_int += np.sum(
+                a=rede[:, -1] * rede[:, 0]
+            )
+
+    if mu != 0.0 and H != 0.0:
+        termo_campo = rede.sum()
 
     E = - J * termo_int - mu * H * termo_campo
-    return E
+    return E  # type: ignore
 
 
 def energia(array_spins: np.ndarray, J: float = 1.0, mu: float = 1.0, H: float = 0.0, ccp: bool = True) -> np.ndarray:
@@ -109,15 +112,3 @@ def calor_especifico_diff(array_E: np.ndarray, dT: float) -> np.ndarray:
 def calor_especifico_fd(array_varE: np.ndarray, array_T: np.ndarray) -> np.ndarray:
     array_C = array_varE / array_T**2
     return array_C
-
-
-# array_teste = ising_montecarlo(T=0.0, L=10, t=1000, ccp=True)
-# mm_teste = magnetizacao(array_teste)
-# mm_teste = energia(array_teste)
-# energias_teste = array_energias(array_teste, 1.0, 0.0, 1.0)
-
-
-# plt.plot(mm_teste)
-# plt.ylim(-2, 2)
-
-# plt.show()

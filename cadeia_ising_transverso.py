@@ -5,15 +5,45 @@ from tqdm.auto import trange
 
 def imprimir_base(N: int):
     base = ['+', '-']
-    array_indices = 2 * np.ones(N, dtype=int)
+    tupla_indices = N * (2,)
 
     i = 0
-    for indices in np.ndindex(tuple(array_indices)):
+    for indices in np.ndindex(tupla_indices):
         string = ''
         for indice in indices:
             string += base[indice]
         print(i, '|' + string + '>')
         i += 1
+
+
+def lista_base(N: int) -> list[str]:
+    base = ['+', '-']
+    tupla_indices = N * (2,)
+
+    lista = []
+    for indices in np.ndindex(tupla_indices):
+        string = ''
+        for indice in indices:
+            string += base[indice]
+        lista.append('|' + string + '>')
+
+    return lista
+
+
+def paridade_base(N: int) -> list[str]:
+    lista = []
+    for ket in lista_base(N):
+        num = ket.count('-')
+        if num % 2 == 0:
+            lista.append('+')
+        else:
+            lista.append('-')
+
+    return lista
+
+
+# print(lista_base(4))
+# print(paridade_base(4))
 
 
 def S_i_x(N: int, i: int) -> np.ndarray:

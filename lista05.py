@@ -406,14 +406,14 @@ print(
 # fig_2a.savefig(
 #     fname='lista05/fig_2a.pdf'
 # )
-fig_2a2.savefig(
-    fname='lista05/fig_2a2.pdf'
-)
+# fig_2a2.savefig(
+#     fname='lista05/fig_2a2.pdf'
+# )
 # fig_2b.savefig(
 #     fname='lista05/fig_2b.pdf'
 # )
-fig_2d.savefig(
-    fname='lista05/fig_2d.pdf'
-)
+# fig_2d.savefig(
+#     fname='lista05/fig_2d.pdf'
+# )
 
 # plt.show()

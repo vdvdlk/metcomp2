@@ -238,20 +238,24 @@ def grafico_rel_escala(ccp: bool, N_max: int = N_max):
 
 
 grafico_gap(ccp=False).savefig(
-    fname='projeto/gap.pdf'
+    fname='projeto/apresentacao_final/gap.pdf'
 )
-grafico_correl(ccp=False)
+# grafico_correl(ccp=False)
 
-grafico_rel_escala(ccp=False)
+grafico_rel_escala(ccp=False).savefig(
+    fname='projeto/apresentacao_final/rel_escala.pdf'
+)
 
 print(ajuste_rel_escala(ccp=False).fit_report())
 
 grafico_gap(ccp=True).savefig(
-    fname='projeto/gap.pdf'
+    fname='projeto/apresentacao_final/gap_ccp.pdf'
 )
-grafico_correl(ccp=True)
+# grafico_correl(ccp=True)
 
-grafico_rel_escala(ccp=True)
+grafico_rel_escala(ccp=True).savefig(
+    fname='projeto/apresentacao_final/rel_escala_ccp.pdf'
+)
 
 print(ajuste_rel_escala(ccp=True).fit_report())
 
@@ -270,4 +274,4 @@ print(ajuste_rel_escala(ccp=True).fit_report())
 
 # print(lamda_c(10, ccp=True))
 
-plt.show()
+# plt.show()

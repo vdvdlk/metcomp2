@@ -1,27 +1,36 @@
 import numpy as np
 import numpy.linalg as LA
-from tqdm.auto import trange
+import matplotlib.pyplot as plt
+from tqdm.auto import tqdm
+
+S_x = np.array(
+    # object=[[1, 0], [0, -1]],  # base x
+    object=[[0, 1], [1, 0]],  # base z
+    dtype=int,
+)
+S_z = np.array(
+    # object=[[0, 1], [1, 0]],  # base x
+    object=[[1, 0], [0, -1]],  # base z
+    dtype=int,
+)
+# S_y = np.array(
+#     object=[[0, -1j], [1j, 0]],  # base x
+#     dtype=complex,
+# )
+I = np.identity(
+    n=2,
+    dtype=int,
+)
 
 
-def S_ip_x_0(b: int, i: int) -> np.ndarray:
-    S_x = np.array(
-        # object=[[0, 1], [1, 0]],  # base z
-        object=[[1, 0], [0, -1]],  # base x
-        dtype=float,
-    )
-
-    I = np.identity(
-        n=2,
-        dtype=float,
-    )
-
+def S_jp_x_n(n_s: int, p: int) -> np.ndarray:
     matriz = np.identity(
         n=1,
-        dtype=float,
+        dtype=int,
     )
 
-    for j in np.arange(1, b + 1):
-        if j == i:
+    for pp in range(1, n_s + 1):
+        if pp == p:
             matriz = np.kron(
                 a=matriz,
                 b=S_x,
@@ -35,26 +44,14 @@ def S_ip_x_0(b: int, i: int) -> np.ndarray:
     return matriz
 
 
-def S_ip_z_0(b: int, i: int) -> np.ndarray:
-    # un_im = complex(0, 1)
-    S_z = np.array(
-        # object=[[1, 0], [0, -1]],  # base z
-        object=[[0, 1], [1, 0]],  # base x
-        dtype=float,
-    )
-
-    I = np.identity(
-        n=2,
-        dtype=float,
-    )
-
+def S_jp_z_n(n_s: int, p: int) -> np.ndarray:
     matriz = np.identity(
         n=1,
-        dtype=float,
+        dtype=int,
     )
 
-    for j in np.arange(1, b + 1):
-        if j == i:
+    for pp in range(1, n_s + 1):
+        if pp == p:
             matriz = np.kron(
                 a=matriz,
                 b=S_z,
@@ -68,150 +65,233 @@ def S_ip_z_0(b: int, i: int) -> np.ndarray:
     return matriz
 
 
-def H_p_0(b: int, J_0: float, Gamma_0: float):
-    formato = (2**b, 2**b)
+def H_j_n(n_s: int, J_n: float, h_n: float):
+    formato = 2 * (2**n_s,)
     termo_int = np.zeros(
         shape=formato,
-        dtype=float
+        dtype=int
     )
     termo_campo = termo_int.copy()
 
-    for i in range(1, (b - 1) + 1):
+    for p in range(1, (n_s - 1) + 1):
         termo_int += np.matmul(
-            S_ip_z_0(b, i),
-            S_ip_z_0(b, i + 1)
+            S_jp_x_n(n_s, p),
+            S_jp_x_n(n_s, p + 1)
         )
 
-    for i in range(1, b + 1):
-        termo_campo += S_ip_x_0(b, i)
+    for p in range(1, n_s + 1):
+        termo_campo += S_jp_z_n(n_s, p)
 
-    H = - (J_0 * termo_int + Gamma_0 * termo_campo)
+    H_j_n = - (J_n * termo_int + h_n * termo_campo)
 
-    return H
+    return H_j_n
 
 
-def diagonalizacao(H: np.ndarray):
+def diagonalizacao(H_j_n: np.ndarray):
     w, v = LA.eigh(
-        a=H
+        a=H_j_n
     )
-    E_0 = w[0]
-    E_1 = w[1]
-    ket_0 = v[:, 0]
-    ket_1 = v[:, 1]
 
-    return E_0, E_1, ket_0, ket_1
+    # Estado fundamental
+    E_mais_nmais1 = w[0]
+    ket_mais_nmais1 = v[:, 0]
+
+    # Primeiro estado excitado
+    E_menos_nmais1 = w[1]
+    ket_menos_nmais1 = v[:, 1]
+
+    return E_mais_nmais1, E_menos_nmais1, ket_mais_nmais1, ket_menos_nmais1
 
 
-def S_p_x_n(ket_0_n: np.ndarray, ket_1_n: np.ndarray):
-    b = int(np.log2(ket_0_n.size))
-    formato = (ket_0_n.size, ket_1_n.size)
+def S_j_x_n(ket_mais_n: np.ndarray, ket_menos_n: np.ndarray):
+    # n_s = int(np.log2(ket_mais_nmais1.size))
+    formato = 2 * (ket_mais_n.size,)
     matriz = np.zeros(
         shape=formato,
         dtype=float
     )
+
     matriz += np.matmul(
-        ket_0_n.reshape(formato[0], 1),
-        ket_0_n.reshape(1, formato[0])
+        ket_menos_n.reshape(formato[0], 1),
+        ket_mais_n.reshape(1, formato[0])
+    )
+    matriz += np.matmul(
+        ket_mais_n.reshape(formato[0], 1),
+        ket_menos_n.reshape(1, formato[0])
+    )
+
+    return matriz
+
+
+def S_j_z_n(ket_mais_n: np.ndarray, ket_menos_n: np.ndarray):
+    # n_s = int(np.log2(ket_mais_nmais1.size))
+    formato = 2 * (ket_mais_n.size,)
+    matriz = np.zeros(
+        shape=formato,
+        dtype=float
+    )
+
+    matriz += np.matmul(
+        ket_mais_n.reshape(formato[0], 1),
+        ket_mais_n.reshape(1, formato[0])
     )
     matriz += - np.matmul(
-        ket_1_n.reshape(formato[0], 1),
-        ket_1_n.reshape(1, formato[0])
+        ket_menos_n.reshape(formato[0], 1),
+        ket_menos_n.reshape(1, formato[0])
     )
 
     return matriz
 
 
-def S_p_z_n(ket_0_n: np.ndarray, ket_1_n: np.ndarray):
-    b = int(np.log2(ket_0_n.size))
-    formato = (ket_0_n.size, ket_1_n.size)
-    matriz = np.zeros(
-        shape=formato,
-        dtype=float
-    )
-    matriz += np.matmul(
-        ket_1_n.reshape(formato[0], 1),
-        ket_0_n.reshape(1, formato[0])
-    )
-    matriz += np.matmul(
-        ket_0_n.reshape(formato[0], 1),
-        ket_1_n.reshape(1, formato[0])
-    )
+def csi_1_n(ket_mais_nmais1: np.ndarray, ket_menos_nmais1: np.ndarray):
+    n_s = int(np.log2(ket_mais_nmais1.size))
 
-    return matriz
-
-
-def Gamma_nmais1(E_0_n: np.ndarray, E_1_n: np.ndarray):
-    array = (1 / 2) * (E_1_n - E_0_n)
-    return array
-
-
-def eta_0(ket_0_1: np.ndarray, ket_1_1: np.ndarray):
-    b = int(np.log2(ket_0_1.size))
-
-    eta = LA.multi_dot([
-        ket_0_1,
-        S_ip_z_0(b, 1),
-        ket_1_1
+    csi_1 = LA.multi_dot([
+        ket_mais_nmais1,
+        S_jp_x_n(n_s, 1),
+        ket_menos_nmais1
     ])
 
-    return eta
+    return csi_1
 
 
-# def eta_n(ket_0_nmais1: np.ndarray, ket_1_nmais1: np.ndarray, matriz_Sz):
-#     b = int(np.log2(ket_0_nmais1.size))
+def iteracao(n_s: int, J_n: float, h_n: float, C_n: float):
+    E_mais_nmais1, E_menos_nmais1, ket_mais_nmais1, ket_menos_nmais1 = diagonalizacao(
+        H_j_n=H_j_n(n_s, J_n, h_n)
+    )
 
-#     eta = LA.multi_dot([
-#         ket_0_nmais1,
-#         S_p_z_n(),
-#         ket_1_nmais1
-#     ])
+    # S_j_x_nmais1 = S_j_x_n(
+    #     ket_mais_n=ket_mais_nmais1,
+    #     ket_menos_n=ket_menos_nmais1
+    # )
 
-#     return eta
+    # S_j_z_nmais1 = S_j_z_n(
+    #     ket_mais_n=ket_mais_nmais1,
+    #     ket_menos_n=ket_menos_nmais1
+    # )
 
+    csi_1 = csi_1_n(
+        ket_mais_nmais1,
+        ket_menos_nmais1
+    )
 
-def J_nmais1(J_n: float, ket_0_n: np.ndarray, ket_1_n: np.ndarray):
-    J = eta_0(ket_0_n, ket_1_n) ** 2 * J_n
-    return J
+    J_nmais1 = csi_1 ** 2 * J_n
+    h_nmais1 = (1 / 2) * (E_menos_nmais1 - E_mais_nmais1)
+    C_nmais1 = n_s * C_n + (1 / 2) * (E_mais_nmais1 + E_menos_nmais1)
 
-
-def c_nmais1(b: int, c_n: float, E_0_nmais1: float, E_1_nmais1: float):
-    C = b * c_n + (E_1_nmais1 + E_0_nmais1) / 2
-    return C
-
-
-# def H_p_n(b: int):
-#     formato = (2**b, 2**b, array_J_0.size, array_Gamma_0.size)
-#     array_H = np.zeros(
-#         shape=formato,
-#         dtype=float,
-#     )
-
-#     for (m, n) in np.ndindex(array_J_0.size, array_Gamma_0.size):
-#         termo_int = np.zeros(
-#             shape=(2**b, 2**b),
-#             dtype=float,
-#         )
-#         termo_campo = termo_int.copy()
-
-#         for i in range(1, (b - 1) + 1):
-#             termo_int += np.matmul(
-#                 S_i_z_0(b, i),
-#                 S_i_z_0(b, i + 1)
-#             )
-
-#         for i in range(1, b + 1):
-#             termo_campo += S_i_x_0(b, i)
-
-#         array_H[:, :, m, n] = - (array_J_0[m] * termo_int +
-#                                  array_Gamma_0[n] * termo_campo)
-
-#     return array_H
+    return J_nmais1, h_nmais1, C_nmais1
 
 
-array_J_0 = np.linspace(
-    0,
-    10,
-    # num=100
+def renormalizacao(n_s: int, num_int: int, array_h_0: np.ndarray):
+    J_0 = 1.0
+    C_0 = 0.0
+    num_pt = array_h_0.size
+
+    array_J_n = np.zeros(
+        shape=num_pt,
+        dtype=float,
+    )
+    array_h_n = array_J_n.copy()
+    array_C_n = array_J_n.copy()
+
+    alcance_array = tqdm(
+        range(num_pt),
+        desc='Renormalização: n_s = ' + str(n_s)
+    )
+    alcance_int = range(1, num_int + 1)
+    for r in alcance_array:
+        J_n, h_n, C_n = (
+            J_0,
+            array_h_0[r],
+            C_0
+        )
+        for n in alcance_int:
+            J_n, h_n, C_n = iteracao(
+                n_s=n_s,
+                J_n=J_n,
+                h_n=h_n,
+                C_n=C_n
+            )
+
+        array_J_n[r] = J_n
+        array_h_n[r] = h_n
+        array_C_n[r] = C_n
+
+    return array_J_n, array_h_n, array_C_n
+
+
+def save_ren(n_s_max: int = 7):
+    array_h_0 = np.linspace(
+        start=0,
+        stop=2,
+        num=101
+    )
+    np.save(
+        file='projeto/renormalizacao/array_h_0',
+        arr=array_h_0
+    )
+
+    for n_s in range(2, n_s_max + 1):
+        array_J, array_h, array_C = renormalizacao(
+            n_s=n_s,
+            num_int=1000,
+            array_h_0=array_h_0,
+        )
+        np.save(
+            file='projeto/renormalizacao/array_J_ns' + str(n_s),
+            arr=array_J
+        )
+        np.save(
+            file='projeto/renormalizacao/array_h_ns' + str(n_s),
+            arr=array_h
+        )
+        np.save(
+            file='projeto/renormalizacao/array_C_ns' + str(n_s),
+            arr=array_C
+        )
+
+
+# save_ren()
+
+array_h_0 = np.load(
+    file='projeto/renormalizacao/array_h_0.npy'
 )
-array_Gamma_0 = np.copy(array_J_0)
 
+# array_J_ns2 = np.load(
+#     file='projeto/renormalizacao/array_J_ns2.npy'
+# )
+# array_h_ns2 = np.load(
+#     file='projeto/renormalizacao/array_h_ns2.npy'
+# )
+
+fig, axs = plt.subplots(
+    ncols=2
+)
+
+pasta = 'projeto/renormalizacao/'
+
+for n_s in range(2, 7 + 1):
+    arquivo_J = pasta + 'array_J_ns' + str(n_s) + '.npy'
+    array_J = np.load(
+        file=arquivo_J
+    )
+    axs[0].plot(
+        array_h_0,
+        array_J,
+        label=str(n_s)
+    )
+axs[0].legend()
+
+for n_s in range(2, 7 + 1):
+    arquivo_h = pasta + 'array_J_ns' + str(n_s) + '.npy'
+    array_h = np.load(
+        file=arquivo_h
+    )
+    axs[1].plot(
+        array_h_0,
+        array_h,
+        label=str(n_s)
+    )
+axs[1].legend()
+
+plt.plot()

@@ -8,7 +8,7 @@ N_max = 10
 
 
 def gap_massa(L: int, ccp: bool) -> np.ndarray:
-    string = 'projeto/autoval_'
+    string = 'projeto/cadeia_finita/autoval_'
     if ccp == True:
         string += 'ccp_'
     string += str(L) + '.npy'
@@ -22,7 +22,7 @@ def gap_massa(L: int, ccp: bool) -> np.ndarray:
 
 def diff_gap_massa(L: int, ccp: bool) -> np.ndarray:
     array_lamda = np.load(
-        file='projeto/array_lamda.npy'
+        file='projeto/cadeia_finita/array_lamda.npy'
     )
     dgap = np.diff(a=gap_massa(L=L, ccp=ccp))
     dlamda = np.diff(a=array_lamda)
@@ -36,7 +36,7 @@ def razao_gap(L: int, ccp: bool) -> np.ndarray:
 
 def funcao_beta(L: int, ccp: bool) -> np.ndarray:
     x = np.load(
-        file='projeto/array_lamda.npy'
+        file='projeto/cadeia_finita/array_lamda.npy'
     )[:-1]
     F = gap_massa(L=L, ccp=ccp)[:-1]
     F_linha = diff_gap_massa(L=L, ccp=ccp)
@@ -64,7 +64,7 @@ def iercc(a_1: float, b_1: float, a_2: float, b_2: float):
 
 def lamda_c(L: int, ccp: bool):
     array_lamda = np.load(
-        file='projeto/array_lamda.npy'
+        file='projeto/cadeia_finita/array_lamda.npy'
     )
     razao = razao_gap(L=L, ccp=ccp)
     indice = int(np.argwhere(razao > 1)[-1][0])
@@ -87,7 +87,7 @@ def lamda_c(L: int, ccp: bool):
 
 def estimativa_B(L: int, ccp: bool):
     x = np.load(
-        file='projeto/array_lamda.npy'
+        file='projeto/cadeia_finita/array_lamda.npy'
     )[:-1]
 
     B = funcao_beta(L=L, ccp=ccp)
@@ -143,7 +143,7 @@ def grafico_gap(ccp: bool, N_max: int = N_max):
     ax.grid(visible=True)
 
     array_lamda = np.load(
-        file='projeto/array_lamda.npy'
+        file='projeto/cadeia_finita/array_lamda.npy'
     )
 
     for N in np.arange(2, N_max + 1):
@@ -173,7 +173,7 @@ def grafico_correl(ccp: bool, N_max: int = N_max):
     ax.grid(visible=True)
 
     array_lamda = np.load(
-        file='projeto/array_lamda.npy'
+        file='projeto/cadeia_finita/array_lamda.npy'
     )
 
     for N in np.arange(2, N_max + 1):
@@ -238,29 +238,29 @@ def grafico_rel_escala(ccp: bool, N_max: int = N_max):
 
 
 grafico_gap(ccp=False).savefig(
-    fname='projeto/apresentacao_final/gap.pdf'
+    fname='projeto/cadeia_finita/apresentacao_final/gap.pdf'
 )
 # grafico_correl(ccp=False)
 
 grafico_rel_escala(ccp=False).savefig(
-    fname='projeto/apresentacao_final/rel_escala.pdf'
+    fname='projeto/cadeia_finita/apresentacao_final/rel_escala.pdf'
 )
 
 print(ajuste_rel_escala(ccp=False).fit_report())
 
 grafico_gap(ccp=True).savefig(
-    fname='projeto/apresentacao_final/gap_ccp.pdf'
+    fname='projeto/cadeia_finita/apresentacao_final/gap_ccp.pdf'
 )
 # grafico_correl(ccp=True)
 
 grafico_rel_escala(ccp=True).savefig(
-    fname='projeto/apresentacao_final/rel_escala_ccp.pdf'
+    fname='projeto/cadeia_finita/apresentacao_final/rel_escala_ccp.pdf'
 )
 
 print(ajuste_rel_escala(ccp=True).fit_report())
 
 # array_lamda = np.load(
-#     file='projeto/array_lamda.npy'
+#     file='projeto/cadeia_finita/array_lamda.npy'
 # )
 
 # plt.plot(

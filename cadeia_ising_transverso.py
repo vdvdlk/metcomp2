@@ -12,11 +12,11 @@ def imprimir_base(N: int):
         string = ''
         for indice in indices:
             string += base[indice]
-        print(i, '|' + string + '>')
+        print(i, '|' + string + '⟩')
         i += 1
 
 
-def lista_base(N: int) -> list[str]:
+def lista_base(N: int, ket: bool = True) -> list[str]:
     base = ['+', '-']
     tupla_indices = N * (2,)
 
@@ -25,9 +25,27 @@ def lista_base(N: int) -> list[str]:
         string = ''
         for indice in indices:
             string += base[indice]
-        lista.append('|' + string + '>')
+        if ket == True:
+            lista.append('|' + string + '⟩')
+        else:
+            lista.append(string)
 
     return lista
+
+
+def indice_base(ket: str):
+    N = ket.count('+') + ket.count('-')
+    base = lista_base(N=N)
+    indice = base.index(ket)
+    return indice
+
+
+def troca_spin_ket(ket: str, p: int):
+    if ket[p] == '+':
+        novo_ket = ket[0:p] + '-' + ket[p+1:]
+    else:
+        novo_ket = ket[0:p] + '+' + ket[p+1:]
+    return novo_ket
 
 
 def paridade_base(N: int) -> list[str]:
@@ -42,7 +60,7 @@ def paridade_base(N: int) -> list[str]:
     return lista
 
 
-# print(lista_base(4))
+# print(lista_base(3))
 # print(paridade_base(4))
 
 

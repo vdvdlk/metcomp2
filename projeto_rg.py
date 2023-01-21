@@ -177,7 +177,7 @@ def csi_p_n(ket_mais_nmais1, ket_menos_nmais1, p):
         if ket.count('-') % 2 == 0:
             ket_trocado = troca_spin_ket(
                 ket=ket,
-                p=p
+                pp=p
             )
             m = indice_base(
                 ket=ket

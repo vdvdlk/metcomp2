@@ -16,7 +16,7 @@ def imprimir_base(N: int):
         i += 1
 
 
-def lista_base(N: int, ket: bool = True) -> list[str]:
+def lista_base(N: int, str_ket: bool = False) -> list[str]:
     base = ['+', '-']
     tupla_indices = N * (2,)
 
@@ -25,7 +25,7 @@ def lista_base(N: int, ket: bool = True) -> list[str]:
         string = ''
         for indice in indices:
             string += base[indice]
-        if ket == True:
+        if str_ket == True:
             lista.append('|' + string + '⟩')
         else:
             lista.append(string)
@@ -34,17 +34,27 @@ def lista_base(N: int, ket: bool = True) -> list[str]:
 
 
 def indice_base(ket: str):
-    N = ket.count('+') + ket.count('-')
-    base = lista_base(N=N)
-    indice = base.index(ket)
+    tek = ket[::-1]
+
+    expoente = 0
+    indice = 0
+    for sinal in tek:
+        if sinal == '+':
+            casa = 0
+        else:
+            casa = 1
+        indice += casa * 2**expoente
+        expoente += 1
+
     return indice
 
 
 def troca_spin_ket(ket: str, p: int):
-    if ket[p] == '+':
-        novo_ket = ket[0:p] + '-' + ket[p+1:]
+    pp = p - 1
+    if ket[pp] == '+':
+        novo_ket = ket[0:pp] + '-' + ket[pp+1:]
     else:
-        novo_ket = ket[0:p] + '+' + ket[p+1:]
+        novo_ket = ket[0:pp] + '+' + ket[pp+1:]
     return novo_ket
 
 
@@ -60,8 +70,30 @@ def paridade_base(N: int) -> list[str]:
     return lista
 
 
-# print(lista_base(3))
-# print(paridade_base(4))
+def indice_base_par(N: int):
+    lista_paridade = paridade_base(N=N)
+
+    lista = []
+    i = 0
+    for paridade in lista_paridade:
+        if paridade == '+':
+            lista.append(i)
+        i += 1
+    
+    return lista
+
+
+def indice_base_impar(N: int):
+    lista_paridade = paridade_base(N=N)
+
+    lista = []
+    i = 0
+    for paridade in lista_paridade:
+        if paridade == '-':
+            lista.append(i)
+        i += 1
+    
+    return lista
 
 
 def S_i_x(N: int, i: int) -> np.ndarray:

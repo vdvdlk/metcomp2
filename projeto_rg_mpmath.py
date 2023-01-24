@@ -330,14 +330,14 @@ def graficos(salvar=False, plotar=False):
 
     axs[1][0].set_box_aspect(1)
     axs[1][0].set_xlabel('$h / J$')
-    axs[1][0].set_ylabel('$C_n / J$')
+    axs[1][0].set_ylabel('$(E_0 / N)_{N \\to \\infty}$')
     axs[1][0].legend()
     axs[1][0].set_xlim(0.9, 1.3)
     # axs[1][0].set_ylim(0, 3)
 
     axs[1][1].set_box_aspect(1)
     axs[1][1].set_xlabel('$h / J$')
-    axs[1][1].set_ylabel('$(E_0 / N)_{N \\to \\infty} = \\chi_z$')
+    axs[1][1].set_ylabel('$\\chi_z$')
     axs[1][1].legend()
     axs[1][1].set_xlim(0.9, 1.3)
     axs[1][1].set_ylim(0, 3)
@@ -345,7 +345,10 @@ def graficos(salvar=False, plotar=False):
     fig.set_size_inches(10, 10)
 
     if salvar == True:
-        fig.savefig('projeto/apresentacao_final/renorm.pdf')
+        fig.savefig(
+            'projeto/apresentacao_final/renorm.pdf',
+            bbox_inches='tight'
+        )
 
     if plotar == True:
         plt.show()

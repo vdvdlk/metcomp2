@@ -111,7 +111,7 @@
     \end{figure}
     O ajuste à função \( f(x) = c + A x^k \) forneceu
     \begin{align*}
-        c = \num{1.0013(2)} & & A = \num{1.98(3)} & & k = \num{-2.22(1)}
+        c = \num{1.0013(2)} &  & A = \num{1.98(3)} &  & k = \num{-2.22(1)}
     \end{align*}
 \end{frame}
 
@@ -123,14 +123,14 @@
     \end{figure}
     O ajuste à função \( f(x) = c + A x^k \) forneceu
     \begin{align*}
-        c = \num{0.99984(3)} & & A = \num{-2.01(5)} & & k = \num{-3.50(2)}
+        c = \num{0.99984(3)} &  & A = \num{-2.01(5)} &  & k = \num{-3.50(2)}
     \end{align*}
 \end{frame}
 
 \begin{frame}{Método \textit{Block Renormalisation Group}}
     O método consiste em um procedimento iterativo que produza o Hamiltoniano (\ref{hamiltoniano}) na \( n \)-ésima iteração
     \begin{equation}
-        H^{(n)} = - \sum_i \qty( J^{(n)} S_i^{x (n)} S_{i + 1}^{x (n)} + h^{(n)} S_i^{z (n)} ) + C^{(n)} \sum_i I_i^{(n)} ,
+        H^{(n)} = - \sum_i \qty( J^{(n)} S_i^{x (n)} S_{i + 1}^{x (n)} + h^{(n)} S_i^{z (n)} ) + C^{(n)} \sum_i I_i^{(n)} , \label{H_n}
     \end{equation}
     com as condições iniciais \( J^{(0)} = J \), \( h^{(0)} = h \) e \( C^{(0)} = 0 \), e onde \( I_i^{(n)} \) indica a matriz identidade \( 2 \times 2 \) para o spin no sítio \( i \).
 \end{frame}
@@ -139,7 +139,7 @@
     Para a \( n \)-ésima iteração, dividimos a cadeia em blocos com \( n_s \) spins em cada bloco.
     Usando os índices \( j \) para indicar o bloco, e \( p \) para indicar o spin dentro do bloco, reescrevemos o hamiltoniano sob a forma
     \begin{equation}
-        H^{(n)} = \sum_j \qty( H_j^{(n)} + H_{j, j + 1}^{(n)} + C^{(n)} \sum_{p = 1, \dotsc , n_s} I_{j, p}^{(n)} ) ,
+        H^{(n)} = \sum_j \qty( H_j^{(n)} + H_{j, j + 1}^{(n)} + C^{(n)} \sum_{p = 1, \dotsc , n_s} I_{j, p}^{(n)} ) , \label{H_j}
     \end{equation}
     onde \( H_j^{(n)} \) é o Hamiltoniano intra-bloco:
     \begin{equation}
@@ -154,11 +154,11 @@
 \begin{frame}{Método \textit{Block Renormalisation Group}}
     Por exemplo, para uma cadeia de 4 spins e um bloco de 2 spins,
     \begin{align}
-        H^{(0)} = &- J^{(0)} \qty( S_1^x S_2^x + S_2^x S_3^x + S_3^x S_4^x ) \\
-        &- h^{(0)} \qty( S_1^z + S_2^z + S_3^z + S_4^z ) \\
-        = &- J^{(0)} S_1^x S_2^x - h^{(0)} ( S_1^z + S_2^z ) \\
-        &- J^{(0)} S_3^x S_4^x - h^{(0)} ( S_3^z + S_4^z ) \\
-        &- J^{(0)} S_2^x S_3^x
+        H^{(0)} = & - J^{(0)} \qty( S_1^x S_2^x + S_2^x S_3^x + S_3^x S_4^x ) \\
+                  & - h^{(0)} \qty( S_1^z + S_2^z + S_3^z + S_4^z )           \\
+        =         & - J^{(0)} S_1^x S_2^x - h^{(0)} ( S_1^z + S_2^z )         \\
+                  & - J^{(0)} S_3^x S_4^x - h^{(0)} ( S_3^z + S_4^z )         \\
+                  & - J^{(0)} S_2^x S_3^x
     \end{align}
     onde podemos ver os termos intra-bloco e inter-bloco.
 \end{frame}
@@ -169,74 +169,70 @@
         \ket{\epsilon_1, \epsilon_2, \dotsc, \epsilon_p, \dotsc, \epsilon_{n_s}} ,
     \end{equation}
     com \( \epsilon_p = \pm 1 \) correspondendo aos autoestados de \( S_{j, p}^{z(n)} \).
-    
+
     Somente usamos os estados fundamental \( \ket{+}^{(n + 1)} \) e primeiro excitado \( \ket{-}^{(n + 1)} \), de energias \( E_+^{(n + 1)} \) e \( E_-^{(n + 1)} \), respectivamente:
     \begin{gather}
-        \ket{+}^{(n + 1)} = \sum^+ \lambda_{\epsilon_1, \epsilon_2, \dotsc, \epsilon_p, \dotsc, \epsilon_{n_s}}^{(n)} \ket{\epsilon_1, \epsilon_2, \dotsc, \epsilon_p, \dotsc, \epsilon_{n_s}} , \\
-        \ket{-}^{(n + 1)} = \sum^- \lambda_{\epsilon_1, \epsilon_2, \dotsc, \epsilon_p, \dotsc, \epsilon_{n_s}}^{(n)} \ket{\epsilon_1, \epsilon_2, \dotsc, \epsilon_p, \dotsc, \epsilon_{n_s}}.
+        \ket{+}^{(n + 1)} = \sum^+ \lambda_{\epsilon_1, \epsilon_2, \dotsc, \epsilon_p, \dotsc, \epsilon_{n_s}}^{+ (n)} \ket{\epsilon_1, \epsilon_2, \dotsc, \epsilon_p, \dotsc, \epsilon_{n_s}} , \\
+        \ket{-}^{(n + 1)} = \sum^- \lambda_{\epsilon_1, \epsilon_2, \dotsc, \epsilon_p, \dotsc, \epsilon_{n_s}}^{- (n)} \ket{\epsilon_1, \epsilon_2, \dotsc, \epsilon_p, \dotsc, \epsilon_{n_s}}.
     \end{gather}
 \end{frame}
 
 \begin{frame}{Método \textit{Block Renormalisation Group}}
-    Para efetuar o processo de renormalização, introduzimos um novo conjunto de operadores de spin \( S_p^{\alpha (1)} \) associado ao bloco \( p \), tal que os autoestados de \( S_p^{x (1)} \) sejam \( \ket{0} \) e \( \ket{1} \).
-    Assim, podemos reescrever \( H_p \), na primeira iteração, na forma renormalizada
+    Introduzimos um novo conjunto de operadores de spin \( S_j^{x (n + 1)} \) associados ao bloco \( j \), tal que os autoestados de \( S_j^{z (n + 1)} \) sejam \( \ket{+}^{(n + 1)} \) e \( \ket{-}^{(n + 1)} \).
+    Assim, podemos reescrever \( H_j^{(n)} \) na forma renormalizada
     \begin{equation}
-        H_p^{(1)} = - \Gamma^{(1)} S_p^{x (1)} + c^{(1)} I_p^{(1)} ,
+        H_j^{(n)} = - h^{(n + 1)} S_j^{z (n + 1)} + \frac{1}{2} \qty( E_+^{(n + 1)} + E_-^{(n + 1)} ) I_j^{(1)} , \label{intrabloco}
     \end{equation}
     onde
     \begin{equation}
-        \Gamma^{(1)} = \frac{E_1 - E_0}{2} \qc c^{(1)} = \frac{E_1 + E_0}{2} .
+        h^{(n + 1)} = \frac{1}{2} \qty(E_-^{(n + 1)} - E_+^{(n + 1)}) . % \qc c^{(1)} = \frac{E_1 + E_0}{2} .
     \end{equation}
 \end{frame}
 
 \begin{frame}{Método \textit{Block Renormalisation Group}}
-    Para reescrever o Hamiltoniano total na forma renormalizada, incluímos a parte inter-bloco de forma perturbativa.
-    % Em ordem zero, \( H^{(1)} = H_p^{(1)} \). Em primeira ordem, tomando o elemento de matriz de \( S_{i, p}^z \) entre os estados \( \ket{0} \) e \( \ket{1} \),
-    % \begin{equation}
-    %     H_{p, p + 1}^{(1)} = - J^{(1)} \sum_p S_p^{z(1)} S_{p + 1}^{z(1)}
-    % \end{equation}
-    % onde
-    % \begin{equation}
-    %     J^{(1)} 
-    % \end{equation}
-    Assim obtemos as relações de recursão para a (\( n + 1 \))-ésima iteração,
-    \begin{align}
-         & \Gamma (n + 1) = \frac{E_1^{(n)} - E_0^{(n)}}{2}                 \\
-         & J (n + 1) = \qty( \eta_1^{(n)} )^2 J^{(n)}                       \\
-         & c(n + 1) = b c^{(n)} + \frac{E_1^{(n + 1)} + E_0^{(n + 1)}}{2} .
-    \end{align}
+    Tomando os elementos de matriz do operador anterior \( S_{j, p}^{x (n)} \) entre os estados \( \ket{+}^{(n + 1)} \) e \( \ket{-}^{(n + 1)} \), obtemos a relação de recursão de spins
+    \begin{equation}
+        S_{j, p}^{x (n)} = \xi_p^{x(n)} S_j^{x(n + 1)} ,
+    \end{equation}
+    com
+    \begin{equation}
+        \xi_p^{x(n)} = \mel{+}{S_{j, p}^{x (n)}}{-} = \sum^+ \lambda_{\epsilon_1, \dotsc, \epsilon_p, \dotsc, \epsilon_{n_s}}^{+ (n)} \lambda_{\epsilon_1, \dotsc, - \epsilon_p, \dotsc, \epsilon_{n_s}}^{- (n)}.
+    \end{equation}
+    Assim podemos reescrever \( H_{j, j + 1}^{(n)} \) em termos dos novos operadores de spin:
+    \begin{equation}
+        H_{j, j + 1}^{(n)} = - J^{(n + 1)} S_j^{x(n + 1)} S_{j + 1}^{x(n + 1)} \label{interbloco}
+    \end{equation}
+    com \( J^{(n + 1)} = \qty( \xi_1^{x(n)} )^2 J^{(n)} \) .
 \end{frame}
 
-% \begin{frame}{Método \textit{Block Renormalisation Group}}
-%     Para realizar a descrição numérica desse problema uso o método do grupo de renormalização.
-%     Para exemplificar o método, apresento o grupo de renormalização de bloco de spin de Kadanoff.
-%     \begin{columns}
-%         \begin{column}{0.5\textwidth}
-%             \begin{figure}
-%                 \includegraphics[width=\textwidth]{Rgkadanoff.png}
-%             \end{figure}
-%         \end{column}
-%         \begin{column}{0.5\textwidth}
-%             Começamos ao dividir o sólido em blocos \( 2 \times 2 \).
-%             Usamos variáveis de bloco, que descrevem o comportamento médio do bloco.
-%             Usamos a aproximação de que as variáveis de bloco obedecem a uma hamiltoniana do mesmo formato do sistema original.
-%         \end{column}
-%     \end{columns}
-% \end{frame}
+\begin{frame}{Método \textit{Block Renormalisation Group}}
+    Ao colocar os termos (\ref{intrabloco}) e (\ref{interbloco}) no Hamiltoniano (\ref{H_j}), reobtemos um Hamiltoniano com a mesma forma de (\ref{H_n}) para o iteração \( n + 1 \), com nova constante
+    \begin{equation}
+        C^{(n + 1)} = n_s C^{(n)} + \frac{1}{2} \qty( E_+^{(n + 1)} + E_-^{(n + 1)} ) .
+    \end{equation}
+    Com essa constante, podemos calcular a energia por sítio do estado fundamental, dada pela relação
+    \begin{equation}
+        (E_0 / N)_{N \to \infty} = \lim_{n \to \infty} \qty(C^{(n)} / n_s^n) ,
+    \end{equation}
+    e assim podemos calcular a susceptibilidade magnética no eixo \( z \) pela relação
+    \begin{equation}
+        \chi_z = - \dv[2]{h} (E_0 / N) .
+    \end{equation}
+\end{frame}
 
-% \begin{frame}{Método \textit{Block Renormalisation Group}}
-%     \begin{columns}
-%         \begin{column}{0.5\textwidth}
-%             \begin{figure}
-%                 \includegraphics[width=\textwidth]{Rgkadanoff.png}
-%             \end{figure}
-%         \end{column}
-%         \begin{column}{0.5\textwidth}
-%             Com menos átomos envolvidos, o problema se torna mais fácil de resolver.
-%             Podemos iterar sobre diferentes tamanhos de blocos, em busca de pontos fixos.
-%         \end{column}
-%     \end{columns}
-% \end{frame}
+\begin{frame}{Método \textit{Block Renormalisation Group}}
+    \framesubtitle{NumPy/ SciPy}
+    \begin{figure}
+        \includegraphics[width=0.73\textwidth]{teste_numpy.pdf}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Método \textit{Block Renormalisation Group}}
+    \framesubtitle{mpmath}
+    \begin{figure}
+        \includegraphics[width=0.73\textwidth]{renorm.pdf}
+    \end{figure}
+\end{frame}
 
 \begin{frame}
     \frametitle{Referências}

@@ -1480,6 +1480,7 @@ INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sfsi1095.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sfsi1440.pfb
+INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sfss0600.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sfss1095.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sfss1440.pfb

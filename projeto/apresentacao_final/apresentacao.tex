@@ -9,21 +9,18 @@
 \frame{\titlepage}
 
 \begin{frame}{Modelo de Ising clássico}
-    O modelo de Ising é um modelo de spins \( S_i = \pm 1 \) localizados, formando uma rede,
-    sob ação de um campo magnético externo \( H \), alinhado com os spins.
+    O modelo de Ising é um modelo de spins \( S_i = \pm 1 \) localizados, formando uma rede, sob ação de um campo magnético externo \( H \), alinhado com os spins.
     \[ E = - J \sum_{\expval{ij}} S_i S_j - \mu H \sum_i S_i \]
 \end{frame}
 
 \begin{frame}{Cadeia de Ising com campo transverso}
-    O modelo de Ising com campo transverso é obtido ao impor que a direção do campo magnético
-    seja transversa à direção dos spins.
+    O modelo de Ising com campo transverso é obtido ao impor que a direção do campo magnético seja transversa à direção dos spins.
     Agora, não podemos mais tratar o problema classicamente, e temos que usar a mecânica quântica.
     Vou abordar o problema unidimensional da cadeia de Ising.
     \begin{equation}
         H = - \sum_i \qty[\Gamma S_i^x + J S_i^z S_{i + 1}^z] = - \sum_i \qty[S_i^x + \lambda S_i^z S_{i + 1}^z] \label{hamiltoniano}
     \end{equation}
-    onde \( S^\alpha \) é o operador de spin de Pauli na direção \( \alpha \), \( J \) é a constante de interação entre os spins,
-    \( \Gamma \) é a constante do campo, e \( \lambda = J / \Gamma \), com \( \Gamma = 1 \).
+    onde \( S^\alpha \) é o operador de spin de Pauli na direção \( \alpha \), \( J \) é a constante de interação entre os spins, \( \Gamma \) é a constante do campo, e \( \lambda = J / \Gamma \), com \( \Gamma = 1 \).
 \end{frame}
 
 \begin{frame}{Cadeia de Ising com campo transverso}
@@ -33,14 +30,12 @@
 
 \begin{frame}{Método \textit{Finite-Size Scaling}}
     Nesse método, diagonalizamos exatamente o Hamiltoniano para cadeias com \( N = 2, 3, 4, \dots \) spins.
-    A princípio, uma cadeia com muitos spins aproximaria o limite termodinâmico \( N \to \infty \) mais adequadamente,
-    mas pode ser numericamente muito custoso.
+    A princípio, uma cadeia com muitos spins aproximaria o limite termodinâmico \( N \to \infty \) mais adequadamente, mas pode ser numericamente muito custoso.
     Podemos usar a seguinte relação para estimar os parâmetros no limite termodinâmico:
     \begin{equation}
         \lambda_c (L) = \lambda_c + A L^{-1/\nu} ,
     \end{equation}
-    onde \( \lambda_c \) é valor crítico de \( \lambda \) para uma transição de fase quântica, \( L \) representa os tamanhos das cadeias,
-    \( A \) é uma constante e \( \nu \) é um expoente crítico relacionado ao comprimento de correlação \( \xi \).
+    onde \( \lambda_c \) é valor crítico de \( \lambda \) para uma transição de fase quântica, \( L \) representa os tamanhos das cadeias, \( A \) é uma constante e \( \nu \) é um expoente crítico relacionado ao comprimento de correlação \( \xi \).
 \end{frame}
 
 \begin{frame}{Método \textit{Finite-Size Scaling}}
@@ -105,8 +100,7 @@
     \begin{equation}
         R_L = \frac{L \Delta(\lambda, L)}{(L - 1) \Delta (\lambda, L - 1)} .
     \end{equation}
-    O parâmetro crítico \( \lambda_c \) pode ser aproximado como
-    a solução da equação \( R_L (\lambda_c) = 1 \).
+    O parâmetro crítico \( \lambda_c \) pode ser aproximado como a solução da equação \( R_L (\lambda_c) = 1 \).
 \end{frame}
 
 \begin{frame}{Método \textit{Finite-Size Scaling}}
@@ -134,32 +128,57 @@
 \end{frame}
 
 \begin{frame}{Método \textit{Block Renormalisation Group}}
-    A ideia por trás do método é gerar um procedimento iterativo que produza o Hamiltoniano (\ref{hamiltoniano}) na \( n \)-ésima iteração
+    O método consiste em um procedimento iterativo que produza o Hamiltoniano (\ref{hamiltoniano}) na \( n \)-ésima iteração
     \begin{equation}
-        H^{(n)} = - \sum_i \qty( J^{(n)} S_i^{z (n)} S_{i + 1}^{z (n)} + \Gamma^{(n)} S_i^{x (n)} ) + c^{(n)} \sum_i I_i^{(n)} ,
+        H^{(n)} = - \sum_i \qty( J^{(n)} S_i^{x (n)} S_{i + 1}^{x (n)} + h^{(n)} S_i^{z (n)} ) + C^{(n)} \sum_i I_i^{(n)} ,
     \end{equation}
-    com as condições iniciais \( J^{(0)} = J \), \( \Gamma^{(0)} = \Gamma \) e \( c^{(0)} = 0 \).
+    com as condições iniciais \( J^{(0)} = J \), \( h^{(0)} = h \) e \( C^{(0)} = 0 \), e onde \( I_i^{(n)} \) indica a matriz identidade \( 2 \times 2 \) para o spin no sítio \( i \).
 \end{frame}
 
 \begin{frame}{Método \textit{Block Renormalisation Group}}
-    Começamos dividindo a cadeia de \( N \) sítios em \( N / b \) blocos com \( b \) spins em cada bloco e
-    reescrevemos o Hamiltoniano como a soma de uma parte intra-bloco \( H_B \) e outra inter-bloco \( H_{IB} \), com
+    Para a \( n \)-ésima iteração, dividimos a cadeia em blocos com \( n_s \) spins em cada bloco.
+    Usando os índices \( j \) para indicar o bloco, e \( p \) para indicar o spin dentro do bloco, reescrevemos o hamiltoniano sob a forma
     \begin{equation}
-        H_B = \sum_{p = 1}^{N / b} H_p \qc H_{IB} = \sum_{p = 1}^{N / b - 1} H_{p, p + 1}
+        H^{(n)} = \sum_j \qty( H_j^{(n)} + H_{j, j + 1}^{(n)} + C^{(n)} \sum_{p = 1, \dotsc , n_s} I_{j, p}^{(n)} ) ,
     \end{equation}
-    com
+    onde \( H_j^{(n)} \) é o Hamiltoniano intra-bloco:
+    \begin{equation}
+        H_j^{(n)} = - J^{(n)} \sum_{p = 1, \dotsc, n_s - 1} S_{j, p}^{x(n)} S_{j, p + 1}^{x(n)} - h^{(n)} \sum_{p = 1, \dotsc, n_s} S_{j, p}^{z(n)}
+    \end{equation}
+    e \( H_{j, j + 1}^{(n)} \) é o Hamiltoniano inter-bloco:
+    \begin{equation}
+        H_{j, j + 1}^{(n)} = - J^{(n)} S_{j, n_s}^{x(n)} S_{j + 1, 1}^{x(n)}
+    \end{equation}
+\end{frame}
+
+\begin{frame}{Método \textit{Block Renormalisation Group}}
+    Por exemplo, para uma cadeia de 4 spins e um bloco de 2 spins,
     \begin{align}
-         & H_p = - \sum_{i = 1}^{b - 1} J S_{i, p}^z S_{i + 1, p}^z + \Gamma \sum_{i = 1}^b S_{i, p}^x \\
-         & H_{p, p + 1} = - J S_{n, p}^z S_{1, p + 1}^z
+        H^{(0)} = &- J^{(0)} \qty( S_1^x S_2^x + S_2^x S_3^x + S_3^x S_4^x ) \\
+        &- h^{(0)} \qty( S_1^z + S_2^z + S_3^z + S_4^z ) \\
+        = &- J^{(0)} S_1^x S_2^x - h^{(0)} ( S_1^z + S_2^z ) \\
+        &- J^{(0)} S_3^x S_4^x - h^{(0)} ( S_3^z + S_4^z ) \\
+        &- J^{(0)} S_2^x S_3^x
     \end{align}
-    onde os índices \( i \) e \( p \) se referem ao \( i \)-ésimo spin no \( p \)-ésimo bloco.
+    onde podemos ver os termos intra-bloco e inter-bloco.
 \end{frame}
 
 \begin{frame}{Método \textit{Block Renormalisation Group}}
-    Diagonalizamos o Hamiltoniano \( H_p \), obtendo os estados fundamental \( \ket{0} \)
-    e primeiro excitado \( \ket{1} \), de energias \( E_0 \) e \( E_1 \).
-    Para efetuar o processo de renormalização, introduzimos um novo conjunto de operadores de spin \( S_p^{\alpha (1)} \)
-    associado ao bloco \( p \), tal que os autoestados de \( S_p^{x (1)} \) sejam \( \ket{0} \) e \( \ket{1} \).
+    Agora diagonalizamos o Hamiltoniano \( H_j^{(n)} \) no espaço de estados do bloco gerado pela base de kets
+    \begin{equation}
+        \ket{\epsilon_1, \epsilon_2, \dotsc, \epsilon_p, \dotsc, \epsilon_{n_s}} ,
+    \end{equation}
+    com \( \epsilon_p = \pm 1 \) correspondendo aos autoestados de \( S_{j, p}^{z(n)} \).
+    
+    Somente usamos os estados fundamental \( \ket{+}^{(n + 1)} \) e primeiro excitado \( \ket{-}^{(n + 1)} \), de energias \( E_+^{(n + 1)} \) e \( E_-^{(n + 1)} \), respectivamente:
+    \begin{gather}
+        \ket{+}^{(n + 1)} = \sum^+ \lambda_{\epsilon_1, \epsilon_2, \dotsc, \epsilon_p, \dotsc, \epsilon_{n_s}}^{(n)} \ket{\epsilon_1, \epsilon_2, \dotsc, \epsilon_p, \dotsc, \epsilon_{n_s}} , \\
+        \ket{-}^{(n + 1)} = \sum^- \lambda_{\epsilon_1, \epsilon_2, \dotsc, \epsilon_p, \dotsc, \epsilon_{n_s}}^{(n)} \ket{\epsilon_1, \epsilon_2, \dotsc, \epsilon_p, \dotsc, \epsilon_{n_s}}.
+    \end{gather}
+\end{frame}
+
+\begin{frame}{Método \textit{Block Renormalisation Group}}
+    Para efetuar o processo de renormalização, introduzimos um novo conjunto de operadores de spin \( S_p^{\alpha (1)} \) associado ao bloco \( p \), tal que os autoestados de \( S_p^{x (1)} \) sejam \( \ket{0} \) e \( \ket{1} \).
     Assim, podemos reescrever \( H_p \), na primeira iteração, na forma renormalizada
     \begin{equation}
         H_p^{(1)} = - \Gamma^{(1)} S_p^{x (1)} + c^{(1)} I_p^{(1)} ,

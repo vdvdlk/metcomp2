@@ -294,16 +294,16 @@ def grafico():
         label='Resultado exato'
     )
 
-    num_int = 100
+    lista_int = [15, 7, 5, 5, 5, 5]
     i = 0
     for n_s in [2, 3, 4, 5, 6, 7]:
         array_h_0, array_J_n, array_h_n, array_C_n = renormalizacao(
             n_s=n_s,
-            num_int=100
+            num_int=lista_int[i]
         )
 
         dh = np.diff(array_h_0)[0]
-        array_E_0_N = array_C_n / n_s**num_int
+        array_E_0_N = array_C_n / n_s**lista_int[i]
         array_dE_0_N = np.gradient(array_E_0_N, dh)
         array_d2E_0_N = np.gradient(array_dE_0_N, dh)
 
@@ -320,7 +320,7 @@ def grafico():
 
         axs[1][0].plot(
             array_h_0,
-            array_C_n / n_s**num_int,
+            array_C_n / n_s**lista_int[i],
             label='$n_s = ' + str(n_s) + '$'
         )
 
@@ -335,13 +335,15 @@ def grafico():
         axs[1][0].legend()
         axs[1][1].legend()
 
-        # fig.savefig('projeto/renormalizacao/teste_numpy.pdf')
         fig.savefig(
-            'projeto/apresentacao_final/teste_numpy.pdf',
+            # fname='projeto/renormalizacao/teste_numpy.pdf',
+            fname='projeto/apresentacao_final/teste_numpy.pdf',
             bbox_inches='tight'
         )
 
         i += 1
+
+    # plt.show()
 
 
 if __name__ == '__main__':

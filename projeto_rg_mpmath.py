@@ -177,18 +177,24 @@ def renormalizacao(n_s, num_int, num_pt=200):
     lista_h_n = []
     lista_C_n = []
 
-    range_tqdm = tqdm(
-        range(num_pt),
+    range_h_0 = tqdm(
+        iterable=range(num_pt),
         desc='Renormalização n_s = ' + str(n_s)
     )
 
-    for r in range_tqdm:
+    for r in range_h_0:
         J_n, h_n, C_n = (
             J_0,
             lista_h_0[r],
             C_0
         )
-        for n in range(1, num_int + 1):
+
+        range_int = tqdm(
+            iterable=range(1, num_int + 1),
+            desc='Iteração'
+        )
+
+        for n in range_int:
             J_n, h_n, C_n = iteracao(
                 n_s=n_s,
                 J_n=J_n,
@@ -253,7 +259,7 @@ def graficos(salvar=False, plotar=False):
 
     lista_int = [15, 7, 5, 5, 5, 5]
     i = 0
-    for n_s in [2, 3, 4]:
+    for n_s in [2, 3, 4, 5]:
         arquivo_h_0 = 'projeto/renormalizacao/lista_h_0_' + \
             str(n_s) + '.pickle'
         arquivo_J_n = 'projeto/renormalizacao/lista_J_n_' + \
@@ -332,7 +338,7 @@ def graficos(salvar=False, plotar=False):
     axs[1][0].set_xlabel('$h / J$')
     axs[1][0].set_ylabel('$(E_0 / N)_{N \\to \\infty}$')
     axs[1][0].legend()
-    axs[1][0].set_xlim(0.9, 1.3)
+    axs[1][0].set_xlim(0, 2)
     # axs[1][0].set_ylim(0, 3)
 
     axs[1][1].set_box_aspect(1)
@@ -361,3 +367,4 @@ if __name__ == '__main__':
     # salvar_listas(3, 7)
     # salvar_listas(4, 5)
     # salvar_listas(5, 5)
+    salvar_listas(6, 5)

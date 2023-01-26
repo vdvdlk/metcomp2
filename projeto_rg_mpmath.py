@@ -361,10 +361,10 @@ def graficos(salvar=False, plotar=False):
 
 
 if __name__ == '__main__':
-    graficos(salvar=True)
+    # graficos(salvar=True)
 
     # salvar_listas(2, 15)
     # salvar_listas(3, 7)
     # salvar_listas(4, 5)
     # salvar_listas(5, 5)
-    salvar_listas(6, 5)
+    salvar_listas(n_s=6, num_int=5)

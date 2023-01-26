@@ -128,7 +128,9 @@
 \end{frame}
 
 \begin{frame}{Método \textit{Block Renormalisation Group}}
-    O método consiste em um procedimento iterativo que produza o Hamiltoniano (\ref{hamiltoniano}) na \( n \)-ésima iteração
+    Os valores críticos do problema da cadeia de Ising transversa tem como propriedade ser invariante de escala: ou seja, alterar a escala do problema não altera o ponto crítico. O método iterativo \textit{Block Renormalisation Group} altera a escala do problema em busca dos pontos críticos, que são os pontos fixos após as iterações.
+
+    O método consiste em um procedimento que produza o Hamiltoniano (\ref{hamiltoniano}) na \( n \)-ésima iteração:
     \begin{equation}
         H^{(n)} = - \sum_i \qty( J^{(n)} S_i^{x (n)} S_{i + 1}^{x (n)} + h^{(n)} S_i^{z (n)} ) + C^{(n)} \sum_i I_i^{(n)} , \label{H_n}
     \end{equation}

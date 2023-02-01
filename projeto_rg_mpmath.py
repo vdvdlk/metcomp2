@@ -4,7 +4,7 @@ from math import log2
 import numpy as np
 import matplotlib.pyplot as plt
 import mpmath as mp
-from tqdm.auto import tqdm
+from tqdm import tqdm
 
 # from cadeia_ising_transverso import (indice_base, indice_base_impar,
 #                                      indice_base_par, lista_base,
@@ -259,7 +259,7 @@ def graficos(salvar=False, plotar=False):
 
     lista_int = [15, 7, 5, 5, 5, 5]
     i = 0
-    for n_s in [2, 3, 4, 5]:
+    for n_s in [2, 3, 4, 5, 6]:
         arquivo_h_0 = 'projeto/renormalizacao/lista_h_0_' + \
             str(n_s) + '.pickle'
         arquivo_J_n = 'projeto/renormalizacao/lista_J_n_' + \
@@ -367,4 +367,5 @@ if __name__ == '__main__':
     # salvar_listas(3, 7)
     # salvar_listas(4, 5)
     # salvar_listas(5, 5)
-    salvar_listas(n_s=6, num_int=5)
+    # salvar_listas(n_s=6, num_int=5)
+    # salvar_listas(n_s=7, num_int=5)

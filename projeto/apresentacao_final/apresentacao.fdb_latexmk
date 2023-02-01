@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex apresentacao"] 1674587061 "apresentacao.aux" "apresentacao.bbl" "apresentacao" 1674709899 0
+["bibtex apresentacao"] 1674587061 "apresentacao.aux" "apresentacao.bbl" "apresentacao" 1675033276 0
   "./refs.bib" 1673225355 1816 85a08f63ac45f3f283e75fec55ac8e75 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/plain.bst" 1661385781 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "apresentacao.aux" 1674709898 4718 a2d0a7599530643df85bee151c50d1f2 "pdflatex"
+  "apresentacao.aux" 1675033276 4718 a2d0a7599530643df85bee151c50d1f2 "pdflatex"
   (generated)
   "apresentacao.bbl"
   "apresentacao.blg"
   (rewritten before read)
-["pdflatex"] 1674709895 "/home/thalesfm/Documentos/graduacao/disciplinas/metcomp2/projeto/apresentacao_final/apresentacao.tex" "apresentacao.pdf" "apresentacao" 1674709899 0
-  "/home/thalesfm/Documentos/graduacao/disciplinas/metcomp2/projeto/apresentacao_final/apresentacao.tex" 1674709894 12055 24476168f8de599da72176f52a64e9f6 ""
+["pdflatex"] 1675033273 "/home/thalesfm/Documentos/graduacao/disciplinas/metcomp2/projeto/apresentacao_final/apresentacao.tex" "apresentacao.pdf" "apresentacao" 1675033276 0
+  "/home/thalesfm/Documentos/graduacao/disciplinas/metcomp2/projeto/apresentacao_final/apresentacao.tex" 1675033206 12055 24476168f8de599da72176f52a64e9f6 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecrm0600.tfm" 1136768653 3584 291a5713401683441e0a8c8f4417b17b ""
@@ -251,17 +251,17 @@
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1661385786 40136 b05acc85e8425979e52682d98a2bcacf ""
   "/usr/share/texlive/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1673713176 5129898 4875121d1b9ef2121c3a12625225e591 ""
   "/usr/share/texlive/texmf-var/web2c/pdftex/pdflatex.fmt" 1673712604 2738506 701f1c964f00c1632e485d45bb09f3b8 ""
-  "apresentacao.aux" 1674709898 4718 a2d0a7599530643df85bee151c50d1f2 "pdflatex"
+  "apresentacao.aux" 1675033276 4718 a2d0a7599530643df85bee151c50d1f2 "pdflatex"
   "apresentacao.bbl" 1674587062 766 8d7514f125ed902fc6aec8a53e7eb270 "bibtex apresentacao"
-  "apresentacao.nav" 1674709898 2318 6bf076db6e1a8e33e3ccecc7cb97fcb8 "pdflatex"
-  "apresentacao.out" 1674709897 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "apresentacao.tex" 1674709894 12055 24476168f8de599da72176f52a64e9f6 ""
+  "apresentacao.nav" 1675033276 2318 6bf076db6e1a8e33e3ccecc7cb97fcb8 "pdflatex"
+  "apresentacao.out" 1675033275 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "apresentacao.tex" 1675033206 12055 24476168f8de599da72176f52a64e9f6 ""
   "gap.pdf" 1673233631 21447 fd975506c33124d2720221543e3cb502 ""
   "gap_ccp.pdf" 1673233632 21853 dd13caa669ae36ccb41f7abb25e0de51 ""
   "pacotesLaTeX.sty" 1673234448 919 f758df5c82d6b4d9cc7985c106d4af69 ""
   "rel_escala.pdf" 1673233631 16879 9f3d590bcba686449fcefa28c99f6c8f ""
   "rel_escala_ccp.pdf" 1673233632 18169 52d1a9b5ee11a0984f7f478435f8e8ab ""
-  "renorm.pdf" 1674673889 25121 2e78bda2e7f5b557698016ce516c4c9c ""
+  "renorm.pdf" 1675033269 26471 6a12943eaaedcaf8bb1eac95fa6e8bbc ""
   "teste_numpy.pdf" 1674672702 34518 85af20c603f092e6f7c4155a1cbf879f ""
   (generated)
   "apresentacao.aux"
